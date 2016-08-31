@@ -3,15 +3,15 @@ var path = require('path');
 
 module.exports = {
     watch: true,
-    devtool: 'source-map',
+    // devtool: 'source-map',
     entry: {
         'isomorphic-cnode': ['babel-polyfill', './src'],
     },
     output: {
         publicPath: '/isomorphic-cnode',
-        path: './client/javascript',
-        filename: 'index.js',
-        chunkFilename: '[name].js'
+        path: './client',
+        filename: './javascript/index.js',
+        chunkFilename: './javascript/[name].js'
     },
     module: {
         loaders: [{
@@ -45,7 +45,7 @@ module.exports = {
         extensions: ['', '.js'],
         root: __dirname,
         alias: {
-            'create-app': path.join(__dirname, 'src'),
+            'create-app': path.join(__dirname, '../create-app/src'),
             'react': 'react-lite',
             'react-dom': 'react-lite',
         }

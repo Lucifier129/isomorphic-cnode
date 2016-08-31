@@ -1,15 +1,13 @@
 import http from 'http'
 import fs from 'fs'
 import path from 'path'
-import url from 'url'
-import querystring from 'querystring'
 
-import routes from './javascript/routes'
-import createApp from '../../src/server'
+import routes from './src/routes'
+import createApp from '../create-app/src/server'
 import ReactDOMServer from 'react-dom/server'
 
 let serverRoutes = routes.map(route => {
-    let controller = path.join(__dirname, 'javascript', route.controller)
+    let controller = path.join(__dirname, './src', route.controller)
     return {
         path: route.path,
         controller: controller,
@@ -38,27 +36,27 @@ let appSettings = {
 
 let app = createApp(appSettings)
 
-let indexFile = fs.readFileSync('server.html').toString()
+let indexFile = fs.readFileSync('./layout.html').toString()
 
 let server = http.createServer(async function(req, res) {
+    let url = replaceRoot(req.url)
 
     res.on('error', logError)
 
     // handle favicon.ico
-    if (req.url.indexOf('/favicon.ico') !== -1) {
+    if (url.indexOf('/favicon.ico') !== -1) {
     	res.writeHead(200, {
             'Content-Type': 'image/ico',
         })
-        readFile('./favicon.ico').pipe(res)
+        readFile('./client/favicon.ico').pipe(res)
     	return
     }
 
-    let contentType = getContentType(req.url)
+    let contentType = getContentType(url)
 
     // handle static file
     if (contentType) {
-        let filepath = replaceRoot(req.url)
-        let file = path.join(__dirname, filepath)
+        let file = path.join(__dirname, 'client', url)
         res.writeHead(200, {
             'Content-Type': contentType,
         })
@@ -66,8 +64,9 @@ let server = http.createServer(async function(req, res) {
         return
     }
 
+    // handle page
     try {
-        let content = await app.render(req.url)
+        let content = await app.render(url)
         res.writeHeader(200, {
             'Content-Type': 'text/html'
         })
