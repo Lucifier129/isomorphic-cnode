@@ -38,8 +38,8 @@ let layoutOptions = {
 let app = createApp(appSettings)
 
 let server = express()
-server.use(layoutOptions.publicPath, express.static(path.join(__dirname, './client')))
-server.use(favicon(path.join(__dirname, './client/favicon.ico')))
+server.use(layoutOptions.publicPath, express.static(path.join(__dirname, './docs')))
+server.use(favicon(path.join(__dirname, './docs/favicon.ico')))
 
 // handle page
 server.get('*', async (req, res) => {

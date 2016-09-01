@@ -1,7 +1,7 @@
 var webpack = require('webpack')
 var path = require('path')
 
-var outputPath = './doc/javascript'
+var outputPath = './docs/javascript'
 var alias = {
     // 'create-app': path.join(__dirname, '../create-app')
 }
