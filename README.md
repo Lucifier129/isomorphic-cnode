@@ -1,4 +1,7 @@
 # isomorphic-cnode
+
+inspired by [Vue-cnodejs](https://github.com/shinygang/Vue-cnodejs), rewrited with `react`
+
 online demoe: [isomorphic-cnode](https://lucifier129.github.io/isomorphic-cnode)
 
 # start server
@@ -21,3 +24,4 @@ npm start
 - async/await
 - hash or pushState
 - react or react-lite
+- and more
