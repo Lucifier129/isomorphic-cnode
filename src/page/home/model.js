@@ -4,7 +4,7 @@
 import { getTopics } from '../../service'
 
 export let INIT = async (state) => {
-	let { searchKey, topics, location } = state
+	let { searchKey, location } = state
 
 	if (location.query.tab) {
 		searchKey = {
@@ -14,10 +14,14 @@ export let INIT = async (state) => {
 	}
 
 	let { data } = await getTopics(searchKey)
+	let topics = data.map(item => {
+		let { content, ...topic } = item
+		return topic
+	})
 
 	return {
 		...state,
-		topics: data,
+		topics,
 		searchKey,
 	}
 }

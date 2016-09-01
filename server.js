@@ -1,10 +1,8 @@
-import express from 'express'
-import favicon from 'serve-favicon'
-
 import fs from 'fs'
 import path from 'path'
-
-import createApp from '../create-app/src/server'
+import express from 'express'
+import favicon from 'serve-favicon'
+import createApp from 'create-app/lib/server'
 import { renderToString } from 'react-dom/server'
 import routes from './src/routes'
 
@@ -47,8 +45,7 @@ server.use(favicon(path.join(__dirname, './client/favicon.ico')))
 server.get('*', async (req, res) => {
     let url = replaceBasename(req.url)
     try {
-        let content = await app.render(url)
-        let controller = app.getCurrentController()
+        let { content, controller} = await app.render(url)
         let initialState = renderInitialState(controller.store.getState())
         let html = renderLayout({ ...layoutOptions, content, initialState })
         res.end(html)

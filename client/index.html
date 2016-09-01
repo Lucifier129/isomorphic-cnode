@@ -17,13 +17,14 @@
         window.__CONFIG__ = {
           type: 'createHashHistory',
         }
-        window.__PUBLIC_PATH__ = '.'
-
+        
         var isLite = location.search.indexOf('lite') !== -1
-        var vendorName = isLite ? 'vendor-lite.js' : 'vendor.js'
-        document.write('<script src="./javascript/' + vendorName + '><\/script>')
-      })()
+        var suffix = isLite ? '-lite/' : '/'
+        window.__PUBLIC_PATH__ = './javascript' + suffix
+        var vendor = '<script src="./javascript' + suffix + 'vendor.js"><\/script>'
+        var index = '<script src="./javascript' + suffix + 'index.js"><\/script>'
+        document.write(vendor + index)
+      })();
     </script>
-    <script src="./javascript/index.js"></script>
   </body>
 </html>

@@ -18,10 +18,12 @@
         window.__PUBLIC_PATH__ = '{{ publicPath }}'
 
         var isLite = location.search.indexOf('lite') !== -1
-        var vendorName = isLite ? 'vendor-lite.js' : 'vendor.js'
-        document.write('<script src="{{ publicPath }}/javascript/' + vendorName + '><\/script>')
+        var suffix = isLite ? '-lite/' : '/'
+        window.__PUBLIC_PATH__ = '{{ publicPath }}/javascript' + suffix
+        var vendor = '<script src="{{ publicPath }}/javascript' + suffix + 'vendor.js"><\/script>'
+        var index = '<script src="{{ publicPath }}/javascript' + suffix + 'index.js"><\/script>'
+        document.write(vendor + index)
       })()
     </script>
-    <script src="{{ publicPath }}/javascript/index.js"></script>
   </body>
 </html>

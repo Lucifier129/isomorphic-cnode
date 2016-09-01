@@ -2,7 +2,9 @@ var webpack = require('webpack')
 var path = require('path')
 
 var outputPath = './client/javascript'
-var alias = {}
+var alias = {
+    // 'create-app': path.join(__dirname, '../create-app')
+}
 var plugins = []
 var watch = true
 
@@ -15,16 +17,16 @@ if (process.env.NODE_ENV === 'production') {
             filename: '/vendor.js',
         }),
 
-        new webpack.optimize.CommonsChunkPlugin({
-            // names: ["app", "subPageA"]
-            // (choose the chunks, or omit for all chunks)
+        // new webpack.optimize.CommonsChunkPlugin({
+        //     // names: ["app", "subPageA"]
+        //     // (choose the chunks, or omit for all chunks)
 
-            children: true,
-            // (select all children of chosen chunks)
+        //     children: true,
+        //     // (select all children of chosen chunks)
 
-            // minChunks: 3,
-            // (3 children must share the module before it's moved)
-        }),
+        //     // minChunks: 3,
+        //     // (3 children must share the module before it's moved)
+        // }),
 
         // strip comments in Vue code
         new webpack.DefinePlugin({
@@ -46,7 +48,7 @@ if (process.env.REACT === 'lite') {
         'react': 'react-lite',
         'react-dom': 'react-lite',
     })
-    outputPath += 'lite'
+    outputPath += '-lite'
 }
 
 webpackConfig = {
@@ -68,9 +70,9 @@ webpackConfig = {
         ],
     },
     output: {
-        path: './client/javascript',
-        filename: '/[name].js',
-        chunkFilename: '/[name].js'
+        path: outputPath,
+        filename: '[name].js',
+        chunkFilename: '[name].js'
     },
     module: {
         loaders: [{

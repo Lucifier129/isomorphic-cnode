@@ -33,15 +33,6 @@ export default class Controller {
 			}
 		}
 
-		if (needLogin && !userInfo.loginname) {
-			let targetPath = '/login'
-			let redirect = getRedirect(context.prevLocation) || getRedirect(location)
-			if (redirect) {
-				targetPath += `?redirect=${encodeURIComponent(redirect)}`
-			}
-			return this.goReplace(targetPath)
-		}
-
 		let store = this.store = createStore(actions, {
 			...initialState,
 			...__INITIAL_STATE__,
@@ -50,6 +41,15 @@ export default class Controller {
 			isClient: context.isClient,
 			isServer: context.isServer,
 		})
+
+		if (needLogin && !userInfo.loginname) {
+			let targetPath = '/login'
+			let redirect = getRedirect(context.prevLocation) || getRedirect(location)
+			if (redirect) {
+				targetPath += `?redirect=${encodeURIComponent(redirect)}`
+			}
+			return this.goReplace(targetPath)
+		}
 
 		// add logger and bind store to view in client
 		if (context.isClient) {
