@@ -4,14 +4,11 @@
   "description": "isomorphic-cnode",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "build:prod": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "build:lite": "cross-env NODE_ENV=production REACT=lite webpack --progress --hide-modules",
     "build:dev": "cross-env NODE_ENV=development webpack --progress --hide-modules",
-    "build": "npm run build:prod && npm run build:lite",
-    "deploy": "npm run build && npm run deploy:force",
-    "deploy:force": "gh-pages -d client"
+    "build": "npm run build:prod && npm run build:lite"
   },
   "repository": {
     "type": "git",

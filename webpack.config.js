@@ -2,31 +2,17 @@ var webpack = require('webpack')
 var path = require('path')
 
 var outputPath = './docs/javascript'
-var alias = {
-    // 'create-app': path.join(__dirname, '../create-app')
-}
+var alias = {}
 var plugins = []
 var watch = true
 
 if (process.env.NODE_ENV === 'production') {
     plugins = plugins.concat([
-
         // extract vendor chunks for better caching
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
             filename: '/vendor.js',
         }),
-
-        // new webpack.optimize.CommonsChunkPlugin({
-        //     // names: ["app", "subPageA"]
-        //     // (choose the chunks, or omit for all chunks)
-
-        //     children: true,
-        //     // (select all children of chosen chunks)
-
-        //     // minChunks: 3,
-        //     // (3 children must share the module before it's moved)
-        // }),
 
         // strip comments in Vue code
         new webpack.DefinePlugin({
