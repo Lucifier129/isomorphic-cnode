@@ -15,7 +15,7 @@ export default class extends Controller {
         replyToTopic: '',
         suffix: `
         <br/>
-        来自 <a class="from" href="https://github.com/Lucifier129/create-app">isomorphic-cnode</a>
+        来自 <a class="from" href="https://github.com/Lucifier129/isomorphic-cnode">isomorphic-cnode</a>
         `,
     }
 

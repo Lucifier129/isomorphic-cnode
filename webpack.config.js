@@ -1,17 +1,76 @@
-var webpack = require('webpack');
-var path = require('path');
+var webpack = require('webpack')
+var path = require('path')
 
-module.exports = {
-    watch: true,
-    // devtool: 'source-map',
+var outputPath = './client/javascript'
+var alias = {}
+var plugins = []
+var watch = true
+
+if (process.env.NODE_ENV === 'production') {
+    plugins = plugins.concat([
+
+        // extract vendor chunks for better caching
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'vendor',
+            filename: '/vendor.js',
+        }),
+
+        new webpack.optimize.CommonsChunkPlugin({
+            // names: ["app", "subPageA"]
+            // (choose the chunks, or omit for all chunks)
+
+            children: true,
+            // (select all children of chosen chunks)
+
+            // minChunks: 3,
+            // (3 children must share the module before it's moved)
+        }),
+
+        // strip comments in Vue code
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('production')
+        }),
+
+        // minify JS
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        })
+    ])
+    watch = false
+}
+
+if (process.env.REACT === 'lite') {
+    Object.assign(alias, {
+        'react': 'react-lite',
+        'react-dom': 'react-lite',
+    })
+    outputPath += 'lite'
+}
+
+webpackConfig = {
+    watch: watch,
+    // devtool: '#source-map',
     entry: {
-        'isomorphic-cnode': ['babel-polyfill', './src'],
+        index: './src',
+        vendor: [
+            'babel-polyfill',
+            'react',
+            'react-dom',
+            'es6-promise',
+            'isomorphic-fetch',
+            'relite',
+            'create-app',
+            'fastclick',
+            'classnames',
+            'querystring'
+        ],
     },
     output: {
-        publicPath: '/isomorphic-cnode',
-        path: './client',
-        filename: './javascript/index.js',
-        chunkFilename: './javascript/[name].js'
+        path: './client/javascript',
+        filename: '/[name].js',
+        chunkFilename: '/[name].js'
     },
     module: {
         loaders: [{
@@ -29,25 +88,13 @@ module.exports = {
             exclude: /node_modules/,
         }]
     },
-    plugins: [
-        new webpack.optimize.CommonsChunkPlugin({
-            // names: ["app", "subPageA"]
-            // (choose the chunks, or omit for all chunks)
-
-            children: true,
-            // (select all children of chosen chunks)
-
-            // minChunks: 3,
-            // (3 children must share the module before it's moved)
-        })
-    ],
+    plugins: plugins,
     resolve: {
         extensions: ['', '.js'],
         root: __dirname,
-        alias: {
-            'create-app': path.join(__dirname, '../create-app/src'),
-            'react': 'react-lite',
-            'react-dom': 'react-lite',
-        }
+        alias: alias,
     }
-};
+}
+
+
+module.exports = webpackConfig

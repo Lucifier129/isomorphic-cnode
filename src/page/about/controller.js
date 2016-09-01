@@ -55,12 +55,12 @@ function About({ state, methods }) {
 		        <dd>基于 cnodejs 的 api，采用 react 编写的 webapp</dd>
 		        <dt>源码地址</dt>
 		        <dd>
-		            <a href="https://github.com/Lucifier129/create-app">
-		                https://github.com/Lucifier129/create-app</a>
+		            <a href="https://github.com/Lucifier129/isomorphic-cnode">
+		                https://github.com/Lucifier129/isomorphic-cnode</a>
 		        </dd>
 		        <dt>意见反馈</dt>
 		        <dd>
-		            <a href="https://github.com/Lucifier129/create-app/issues">
+		            <a href="https://github.com/Lucifier129/isomorphic-cnode/issues">
 		                发表意见或者提需求</a>
 		        </dd>
 		        <dt>当前版本</dt>

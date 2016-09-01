@@ -5,11 +5,9 @@ export default class BaseView extends Component {
 		location: PropTypes.object,
 		goTo: PropTypes.func,
 		goReplace: PropTypes.func,
-		context: PropTypes.object,
 	};
 	getChildContext() {
-		let { children, ...context } = this.props
-		return context
+		return this.props.context
 	}
 	render() {
 		return Children.only(this.props.children)

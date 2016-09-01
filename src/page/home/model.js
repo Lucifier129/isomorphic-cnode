@@ -6,10 +6,6 @@ import { getTopics } from '../../service'
 export let INIT = async (state) => {
 	let { searchKey, topics, location } = state
 
-	if (topics.length > 0) {
-		return state
-	}
-
 	if (location.query.tab) {
 		searchKey = {
 			...searchKey,

@@ -12,7 +12,8 @@ export default function User({ state, methods }) {
 		showMenu,
 		user,
 		selectItem,
-		userInfo
+		userInfo,
+		location,
 	} = state
 
 	let {

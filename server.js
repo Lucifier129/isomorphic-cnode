@@ -1,120 +1,84 @@
-import http from 'http'
+import express from 'express'
+import favicon from 'serve-favicon'
+
 import fs from 'fs'
 import path from 'path'
 
-import routes from './src/routes'
 import createApp from '../create-app/src/server'
-import ReactDOMServer from 'react-dom/server'
-
-let serverRoutes = routes.map(route => {
-    let controller = path.join(__dirname, './src', route.controller)
-    return {
-        path: route.path,
-        controller: controller,
-    }
-})
+import { renderToString } from 'react-dom/server'
+import routes from './src/routes'
 
 let commonjsLoader = url => {
-    let module = require(url)
+    let module = require(path.join(__dirname, './src', url))
     return module.default || module
 }
 
-let viewEngine = {
-    render: ReactDOMServer.renderToString
+let shareSettings = {
+    type: 'createHistory',
+    basename: '/isomorphic-cnode',
 }
-let basename = '/isomorphic-cnode'
+
 let appSettings = {
-    basename: basename,
-    viewEngine: viewEngine,
+    ...shareSettings,
     loader: commonjsLoader,
-    routes: serverRoutes,
+    routes: routes,
+    viewEngine: {
+        render: renderToString,
+    },
     context: {
         isClient: false,
         isServer: true,
     },
 }
 
+let layoutOptions = {
+    publicPath: '/static',
+    config: shareSettings,
+    initialState: '',
+}
+
 let app = createApp(appSettings)
 
-let indexFile = fs.readFileSync('./layout.html').toString()
+let server = express()
+server.use(layoutOptions.publicPath, express.static(path.join(__dirname, './client')))
+server.use(favicon(path.join(__dirname, './client/favicon.ico')))
 
-let server = http.createServer(async function(req, res) {
-    let url = replaceRoot(req.url)
-
-    res.on('error', logError)
-
-    // handle favicon.ico
-    if (url.indexOf('/favicon.ico') !== -1) {
-    	res.writeHead(200, {
-            'Content-Type': 'image/ico',
-        })
-        readFile('./client/favicon.ico').pipe(res)
-    	return
-    }
-
-    let contentType = getContentType(url)
-
-    // handle static file
-    if (contentType) {
-        let file = path.join(__dirname, 'client', url)
-        res.writeHead(200, {
-            'Content-Type': contentType,
-        })
-        readFile(file).pipe(res)
-        return
-    }
-
-    // handle page
+// handle page
+server.get('*', async (req, res) => {
+    let url = replaceBasename(req.url)
     try {
         let content = await app.render(url)
-        res.writeHeader(200, {
-            'Content-Type': 'text/html'
-        })
-        res.end(render(content))
+        let controller = app.getCurrentController()
+        let initialState = renderInitialState(controller.store.getState())
+        let html = renderLayout({ ...layoutOptions, content, initialState })
+        res.end(html)
     } catch (error) {
-        // handle 404
-        res.writeHead(404)
-        res.end(error.message)
+        res.writeHead(500)
+        res.end(error.stack)
     }
 })
 
-let port = 3002
+let port = process.env.PORT || 3002
 
-server.listen(port)
+server.listen(port, () => {
+    console.log(`server started at localhost:${port}${shareSettings.basename}`)
+})
 
-console.log(`server start at ${port}`)
-
-function readFile(file) {
-    return fs.createReadStream(file)
+let layout = fs.readFileSync('./layout.html', 'utf-8')
+function renderLayout(options) {
+    return Object.keys(options).reduce((html, key) => {
+        let value = typeof options[key] === 'string' ? options[key] : JSON.stringify(options[key])
+        return html.replace(new RegExp(`{{ ${key} }}`, 'g'), value)
+    }, layout)
 }
 
-function render(content) {
-    return indexFile.replace(`<div id="root"></div>`, `<div id="root">${content}</div>`)
+function renderInitialState(initialState) {
+    return `<script>window.__INITIAL_STATE__=${JSON.stringify(initialState)}</script>`
 }
 
-function logError(error) {
-	console.error(error)
-}
-
-let mime = {
-    '.js': 'text/javascript',
-    '.html': 'text/html',
-    '.css': 'text/css',
-    '.png': 'image/png',
-    '.jpg': 'image/jpeg',
-    '.gif': 'image/gif',
-}
-
-function getContentType(inputPath) {
-    let extname = path.extname(inputPath)
-    if (extname && mime.hasOwnProperty(extname)) {
-        return mime[extname]
+function replaceBasename(inputUrl) {
+    if (inputUrl.indexOf(shareSettings.basename) === 0) {
+        return inputUrl.substr(shareSettings.basename.length)
     }
-}
-
-function replaceRoot(inputUrl) {
-	if (inputUrl.indexOf(basename) === 0) {
-		return inputUrl.substr(basename.length)
-	}
-	return inputUrl
+    return inputUrl
 }

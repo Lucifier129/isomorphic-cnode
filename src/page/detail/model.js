@@ -6,16 +6,9 @@ import { linkUsers } from '../../share/util'
 import { markdown } from 'markdown'
 
 export let INIT = async (state) => {
-	let { location, topic } = state
-
-	if (topic) {
-		return state
-	}
-
+	let { location } = state
 	let { topicId } = location.params
-	let { data } = await getTopic(topicId)
-
-	topic = data
+	let { data: topic } = await getTopic(topicId)
 
 	return {
 		...state,

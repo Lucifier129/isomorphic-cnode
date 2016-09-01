@@ -1,8 +1,11 @@
 import 'isomorphic-fetch'
 import ReactDOM from 'react-dom'
 import Fastclick from 'fastclick'
-import createApp from 'create-app/client'
+import createApp from 'create-app/lib/client'
 import routes from './routes'
+
+__webpack_public_path__ = __PUBLIC_PATH__
+const config = window.__CONFIG__
 
 const webpackLoader = (url) => (
     new Promise(require(url))
@@ -18,21 +21,19 @@ const viewEngine = {
 	},
 }
 
-const appSettings = {
-	type: 'createHistory',
+const app = createApp({
+	...config,
 	hashType: 'hashbang',
-	basename: '/isomorphic-cnode',
 	container: '#root',
 	context: {
+		...config.context,
 		isClient: true,
 		isServer: false,
 	},
 	loader: webpackLoader,
 	routes,
 	viewEngine,
-}
-
-const app = createApp(appSettings)
+})
 
 app.start()
 
