@@ -3,22 +3,23 @@ var path = require('path')
 
 var outputPath = './docs/javascript'
 var alias = {}
-var plugins = []
+var plugins = [
+    // extract vendor chunks for better caching
+    new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor',
+        filename: '/vendor.js',
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+        children: true,
+    })
+]
 var watch = true
 
 if (process.env.NODE_ENV === 'production') {
     plugins = plugins.concat([
-        // extract vendor chunks for better caching
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor',
-            filename: '/vendor.js',
-        }),
-
-        // strip comments in Vue code
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production')
         }),
-
         // minify JS
         new webpack.optimize.UglifyJsPlugin({
             compress: {

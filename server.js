@@ -6,8 +6,7 @@ import createApp from 'create-app/lib/server'
 import { renderToString } from 'react-dom/server'
 import routes from './src/routes'
 
-let commonjsLoader = url => {
-    let module = require(path.join(__dirname, './src', url))
+let commonjsLoader = module => {
     return module.default || module
 }
 

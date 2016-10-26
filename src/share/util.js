@@ -285,17 +285,3 @@ function fetchUsers(text) {
     })
     return names
 }
-
-/**
- * 根据文本内容，替换为数据库中的数据
- * @param {String} text 文本内容
- * @param {Function} callback 回调函数
- */
-export function linkUsers(text) {
-    var users = fetchUsers(text)
-    for (var i = 0, l = users.length; i < l; i++) {
-        var name = users[i]
-        text = text.replace(new RegExp('@' + name + '\\b(?!\\])', 'g'), '[@' + name + '](/user/' + name + ')')
-    }
-    return text
-}

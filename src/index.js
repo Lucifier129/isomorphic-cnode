@@ -7,8 +7,8 @@ import routes from './routes'
 __webpack_public_path__ = __PUBLIC_PATH__
 const config = window.__CONFIG__
 
-const webpackLoader = (url) => (
-    new Promise(require(url))
+const webpackLoader = (loadModule) => (
+    new Promise(loadModule)
     .then(module => module.default || module)
 )
 
