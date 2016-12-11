@@ -6,18 +6,19 @@ import createApp from 'create-app/lib/server'
 import { renderToString } from 'react-dom/server'
 import routes from './src/routes'
 
-let commonjsLoader = module => {
-    return module.default || module
+let defaults = {
+    publicPath: '/static',
+    config: {
+        type: 'createHistory',
+        basename: '/isomorphic-cnode',
+    },
+    initialState: 'undefined',
+    content: '',
 }
 
-let shareSettings = {
-    type: 'createHistory',
-    basename: '/isomorphic-cnode',
-}
-
-let appSettings = {
-    ...shareSettings,
-    loader: commonjsLoader,
+let app = createApp({
+    ...defaults.config,
+    loader: module => module.default || module,
     routes: routes,
     viewEngine: {
         render: renderToString,
@@ -26,27 +27,23 @@ let appSettings = {
         isClient: false,
         isServer: true,
     },
-}
-
-let layoutOptions = {
-    publicPath: '/static',
-    config: shareSettings,
-    initialState: '',
-}
-
-let app = createApp(appSettings)
+})
 
 let server = express()
-server.use(layoutOptions.publicPath, express.static(path.join(__dirname, './docs')))
+server.use(defaults.publicPath, express.static(path.join(__dirname, './docs')))
 server.use(favicon(path.join(__dirname, './docs/favicon.ico')))
 
 // handle page
 server.get('*', async (req, res) => {
     let url = replaceBasename(req.url)
     try {
-        let { content, controller} = await app.render(url)
-        let initialState = renderInitialState(controller.store.getState())
-        let html = renderLayout({ ...layoutOptions, content, initialState })
+        let { content, controller } = await app.render(url)
+        let initialState = controller.store.getState()
+        let html = renderLayout({
+            ...defaults,
+            content,
+            initialState,
+        })
         res.end(html)
     } catch (error) {
         res.writeHead(500)
@@ -57,7 +54,7 @@ server.get('*', async (req, res) => {
 let port = process.env.PORT || 3002
 
 server.listen(port, () => {
-    console.log(`server started at localhost:${port}${shareSettings.basename}`)
+    console.log(`server started at localhost:${port}${defaults.config.basename}`)
 })
 
 let layout = fs.readFileSync('./layout.html', 'utf-8')
@@ -68,13 +65,9 @@ function renderLayout(options) {
     }, layout)
 }
 
-function renderInitialState(initialState) {
-    return `<script>window.__INITIAL_STATE__=${JSON.stringify(initialState)}</script>`
-}
-
 function replaceBasename(inputUrl) {
-    if (inputUrl.indexOf(shareSettings.basename) === 0) {
-        return inputUrl.substr(shareSettings.basename.length)
+    if (inputUrl.indexOf(defaults.config.basename) === 0) {
+        return inputUrl.substr(defaults.config.basename.length)
     }
     return inputUrl
 }

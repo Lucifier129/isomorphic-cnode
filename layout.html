@@ -11,9 +11,9 @@
   </head>
   <body>
     <div id="root">{{ content }}</div>
-    {{ initialState }}
     <script>
       (function() {
+        window.__INITIAL_STATE__ = {{ initialState }}
         window.__CONFIG__ = {{ config }}
         window.__PUBLIC_PATH__ = '{{ publicPath }}'
 

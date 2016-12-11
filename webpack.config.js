@@ -47,7 +47,6 @@ webpackConfig = {
             'babel-polyfill',
             'react',
             'react-dom',
-            'es6-promise',
             'isomorphic-fetch',
             'relite',
             'create-app',
