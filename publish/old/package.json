@@ -1,0 +1,56 @@
+{
+  "name": "isomorphic-cnode",
+  "version": "1.0.0",
+  "description": "isomorphic-cnode",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "build:prod": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "build:lite": "cross-env NODE_ENV=production REACT=lite webpack --progress --hide-modules",
+    "build:dev": "cross-env NODE_ENV=development webpack --progress --hide-modules",
+    "build": "npm run build:prod && npm run build:lite"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lucifier129/isomorphic-cnode.git"
+  },
+  "keywords": [
+    "isomorphic",
+    "react",
+    "cnode"
+  ],
+  "author": "Jade Gu",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-polyfill": "^6.13.0",
+    "babel-preset-latest": "^6.14.0",
+    "babel-preset-react": "^6.11.1",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-register": "^6.14.0",
+    "bundle-loader": "^0.5.4",
+    "cross-env": "^2.0.1",
+    "gh-pages": "^0.11.0",
+    "webpack": "^1.12.2"
+  },
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "create-app": "^0.2.0",
+    "es6-promise": "^3.2.1",
+    "express": "^4.14.0",
+    "fastclick": "^1.0.6",
+    "isomorphic-fetch": "^2.2.1",
+    "markdown": "^0.5.0",
+    "querystring": "^0.2.0",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1",
+    "react-lite": "^0.15.17",
+    "relite": "^1.0.1",
+    "serve-favicon": "^2.3.0"
+  },
+  "bugs": {
+    "url": "https://github.com/Lucifier129/isomorphic-cnode/issues"
+  },
+  "homepage": "https://github.com/Lucifier129/isomorphic-cnode#readme"
+}

@@ -1,56 +1,37 @@
 /**
- * actions of model
+ * Model
  */
-import { getTopics } from '../../service'
 
-export let INIT = async (state) => {
-	let { searchKey, location } = state
+export const initialState = {
+  // 主题列表
+  topics: [],
+  // 请求参数
+  searchParams: {
+    page: 1,
+    limit: 20,
+    tab: "all",
+    mdrender: true
+  },
+};
 
-	if (location.query.tab) {
-		searchKey = {
-			...searchKey,
-			tab: location.query.tab,
-		}
-	}
+// 添加主题列表
+export const ADD_TOPICS = (state, data) => {
+  let topics = data.map(item => {
+    let { content, ...topic } = item;
+    return topic;
+  });
 
-	let { data } = await getTopics(searchKey)
-	let topics = data.map(item => {
-		let { content, ...topic } = item
-		return topic
-	})
+  return {
+    ...state,
+    topics: state.topics.concat(topics)
+  };
+};
 
-	return {
-		...state,
-		topics,
-		searchKey,
-	}
-}
-
-export let FETCH_NEXT_TOPICS = async (state) => {
-	let { searchKey, topics } = state
-
-	searchKey = {
-		...searchKey,
-		page: searchKey.page + 1,
-	}
-
-	let { data } = await getTopics(searchKey)
-
-	topics = topics.concat(data)
-
-	return {
-		...state,
-		searchKey,
-		topics,
-	}
-}
-
-export let UPDATE_FIELD = (state, { key, value }) => {
-	if (state[key] === value) {
-		return state
-	}
-	return {
-		...state,
-		[key]: value,
-	}
-}
+// 添加主题列表，并更新请求参数
+export const ADD_TOPICS_AND_UPDATE_PARAMS = (state, { data, searchParams }) => {
+  state = ADD_TOPICS(state, data);
+  return {
+    ...state,
+    searchParams
+  };
+};

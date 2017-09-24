@@ -1,62 +1,69 @@
-import React, { Component } from 'react'
-import classnames from 'classnames'
-import { addClassName } from '../share/hoc'
-import Menu from './Menu'
-import Link from './Link'
+import React, { Component } from "react";
+import classnames from "classnames";
+import { Link } from "react-imvc/component";
+import Menu from "./Menu";
 
-let settings = {
-	path: ['showMenu'],
-	target: ['html', 'body', '#page'],
-	className: 'scroll-hide',
+export default function Header({ state, handlers }) {
+  let {
+    showMenu,
+    fixedHeader,
+    showAddButton,
+    messageCount,
+    userInfo,
+    location,
+    pageTitle,
+  } = state;
+  let { handleOpenMenu, handleCloseMenu } = handlers;
+  let headClassName = classnames({
+    show: showMenu && fixedHeader,
+    "fix-header": fixedHeader,
+    "no-fix": !fixedHeader
+  });
+  return (
+    <div>
+      <PageCover if={showMenu && fixedHeader} onClick={handleCloseMenu} />
+      <header id="hd" className={headClassName}>
+        <div className="nv-toolbar">
+          <Toolbar if={fixedHeader} onClick={handleOpenMenu} />
+          <span>{pageTitle}</span>
+          <Message messageCount={messageCount} showAddButton={showAddButton} />
+        </div>
+      </header>
+      <Menu
+        if={showMenu && fixedHeader}
+        userInfo={userInfo}
+        location={location}
+        onClose={handleCloseMenu}
+      />
+    </div>
+  );
 }
 
-export default addClassName(settings)(Header)
+function PageCover(props) {
+  if (!props.if) {
+    return null;
+  }
+  return <div className="page-cover" onClick={props.onClick} />;
+}
 
+function Toolbar(props) {
+  if (!props.if) {
+    return null;
+  }
+  return <div className="toolbar-nav" onClick={props.onClick} />;
+}
 
-function Header(props) {
-	let {
-		showMenu,
-		fixHead,
-		needAdd,
-		openMenu,
-		closeMenu,
-		messageCount,
-		userInfo,
-		location,
-		pageType,
-	} = props
-	let headClassName = classnames({
-		'show': showMenu && fixHead,
-		'fix-header': fixHead,
-		'no-fix': !fixHead
-	})
-	return (
-		<div>
-		{ showMenu && fixHead &&
-			<div className="page-cover" onClick={closeMenu}></div>
-		}
-			<header id="hd" className={headClassName}>
-				<div className="nv-toolbar">
-				{ fixHead &&
-					<div className="toolbar-nav" onClick={openMenu}></div>
-				}
-					<span>{pageType}</span>
-				{ messageCount && messageCount > 0 &&
-					<i className="num">{messageCount}</i>
-				}
-				{ needAdd && (!messageCount || messageCount <= 0) &&
-					<Link tagName="i" className="iconfont add-icon" to={`/add`}>&#xe60f;</Link>
-				}
-				</div>
-			</header>
-			{ fixHead &&
-				<Menu
-					showMenu={showMenu}
-					userInfo={userInfo}
-					location={location}
-					closeMenu={closeMenu}
-				/>
-			}
-			</div>
-		)
+function Message({ messageCount, showAddButton }) {
+  if (messageCount > 0) {
+    return <i className="num">{messageCount}</i>;
+  }
+  if (showAddButton) {
+    return (
+      <Link as="i" className="iconfont add-icon" to={`/add`}>
+        &#xe60f;
+      </Link>
+    );
+  }
+
+  return null;
 }

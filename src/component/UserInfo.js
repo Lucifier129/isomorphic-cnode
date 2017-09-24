@@ -1,50 +1,32 @@
-import React, { Component } from 'react'
-import { purify } from '../share/hoc'
-import Link from './Link'
+import React from "react";
+import { Link } from "react-imvc/component";
 
-export default purify()(UserInfo)
-
-function UserInfo({ location, userInfo }) {
-	return (
-		<div className="user-info">
-		{ userInfo && !!userInfo.loginname
-			? <User userInfo={userInfo}  />
-			: <Login location={location} />
-		}
-	    </div>
-	)
+export default function UserInfo({ location, userInfo }) {
+  return (
+    <div className="user-info">
+      {!!userInfo && <User {...userInfo} />}
+      {!userInfo && <Login location={location} />}
+    </div>
+  );
 }
 
 function Login({ location }) {
+  if (location.pathname === "/login") {
+    return null;
+  }
 
-	if (location.pathname === '/login') {
-		return null
-	}
-
-	let currentPath = `${location.pathname}${location.search}${location.hash}`
-	let targetPath = `/login?redirect=${currentPath}`
-	return (
-		<ul className="login-no">
-			<li className="login">
-				<Link to={targetPath}>登录</Link>
-			</li>
-		</ul>
-	)
+  return (
+    <ul className="login-no">
+      <Link as="li" className="login" to={`/login?redirect=${location.raw}`}>登录</Link>
+    </ul>
+  );
 }
 
-function User({ userInfo }) {
-	return (
-		<Link tagName="div" className="login-yes" to={`/user/${userInfo.loginname}`}>
-			<div className="avertar">
-			{ userInfo.avatar_url &&
-				<img src={userInfo.avatar_url} />
-			}
-			</div>
-			<div className="info">
-			{ userInfo.loginname &&
-				<p>{userInfo.loginname}</p>
-			}
-			</div>
-		</Link>
-	)
+function User({ loginname, avatar_url }) {
+  return (
+    <Link as="div" to={`/user/${loginname}`} className="login-yes">
+      <div className="avertar">{avatar_url && <img src={avatar_url} />}</div>
+      <div className="info">{loginname && <p>{loginname}</p>}</div>
+    </Link>
+  );
 }
