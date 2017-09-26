@@ -14,6 +14,35 @@ export const initialState = {
   },
 };
 
+/**
+ * 在 View 创建前将首屏数据合并到 state 里
+ */
+export const COMPONENT_WILL_CREATE = (state, data) => {
+  return ADD_TOPICS(state, data)
+}
+
+/**
+ * 
+ * 滚动到底部时，加载新的数据并更新查询参数
+ */
+export const SCROLL_TO_BOTTOM = (state, { data, searchParams }) => {
+  state = ADD_TOPICS(state, data);
+  state = UPDATE_SEARCH_PARAMS(state, searchParams)
+  return state
+};
+
+
+/**
+ * 更新查询参数
+ */
+export const UPDATE_SEARCH_PARAMS = (state, searchParams) => {
+  return {
+    ...state,
+    searchParams,
+  }
+}
+
+
 // 添加主题列表
 export const ADD_TOPICS = (state, data) => {
   let topics = data.map(item => {
@@ -27,11 +56,3 @@ export const ADD_TOPICS = (state, data) => {
   };
 };
 
-// 添加主题列表，并更新请求参数
-export const ADD_TOPICS_AND_UPDATE_PARAMS = (state, { data, searchParams }) => {
-  state = ADD_TOPICS(state, data);
-  return {
-    ...state,
-    searchParams
-  };
-};

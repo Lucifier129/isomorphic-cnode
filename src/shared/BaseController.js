@@ -44,6 +44,10 @@ export default class extends Controller {
     let userInfo = null;
     let accesstoken = this.cookie("accesstoken");
 
+    if (!accesstoken) {
+      return userInfo;
+    }
+
     try {
       userInfo = await this.post("userInfo", { accesstoken });
     } catch (error) {
@@ -58,24 +62,20 @@ export default class extends Controller {
     return !!this.context.userInfo;
   }
 
-  // 封装 post 方法，处理 cnode 跨域要求
-  post(api, params) {
-    let url = this.API[api] || api;
-    let options = {
-      credentials: "omit",
-      method: "POST",
-      body: JSON.stringify(params)
-    };
-    return this.fetch(url, options);
+  // 封装 get 方法，处理 cnode 跨域要求
+  get(api, params, options) {
+    return super.get(api, params, {
+      ...options,
+      credentials: "omit"
+    });
   }
 
-  // 封装 get 方法，处理 cnode 跨域要求
-  get(api, params) {
-    let url = (this.API[api] || api) + "?" + querystring.stringify(params);
-    let options = {
-      credentials: "omit",
-    };
-    return this.fetch(url, options);
+  // 封装 post 方法，处理 cnode 跨域要求
+  post(api, params) {
+    return super.post(api, params, {
+      ...options,
+      credentials: "omit"
+    });
   }
 
   // 打开菜单
