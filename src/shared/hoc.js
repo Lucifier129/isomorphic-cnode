@@ -7,3 +7,14 @@ export let purify = () => (InputComponent) => {
         }
     }
 }
+
+export let staticify = () => (InputComponent) => {
+    return class Static extends React.Component {
+        shouldComponentUpdate() {
+            return false // always false to make sure just rendering once
+        }
+        render() {
+            return <InputComponent {...this.props} />
+        }
+    }
+}

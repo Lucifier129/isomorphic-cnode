@@ -19,8 +19,8 @@ export default class extends Controller {
   async getInitialState(initialState) {
     let userInfo = await this.getUserInfo();
     return {
-      ...initialState,
       ...sharedInitialState,
+      ...initialState,
       userInfo
     };
   }

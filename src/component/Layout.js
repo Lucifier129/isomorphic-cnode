@@ -5,7 +5,7 @@ import BackToTop from "./BackToTop";
 
 export default function Layout({ state, handlers, children }) {
   return (
-    <div>
+    <div style={{ height: "100%", background: "#fff" }}>
       <Style name="main" />
       <Header state={state} handlers={handlers} />
       {children}

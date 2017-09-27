@@ -3,6 +3,7 @@
  */
 
 export const initialState = {
+  pageTitle: '首页',
   // 主题列表
   topics: [],
   // 请求参数
