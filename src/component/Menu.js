@@ -4,15 +4,25 @@ import { Link } from "react-imvc/component";
 import UserInfo from "./UserInfo";
 
 export default function Menu(props) {
-  let { location, userInfo, onClose } = props;
+  let { state, handlers } = props;
+  let { location, userInfo, user } = state;
   let className = classnames({
     "nav-list": true,
     show: props.if
   });
 
   return (
-    <section id="sideBar" className={className} onClick={onClose}>
-      <UserInfo location={location} userInfo={userInfo} />
+    <section
+      id="sideBar"
+      className={className}
+      onClick={handlers.handleCloseMenu}
+    >
+      <UserInfo
+        location={location}
+        userInfo={userInfo}
+        user={user}
+        onLogout={handlers.handleLogout}
+      />
       <ul className="list-ul">
         <Link as="li" className="icon-quanbu iconfont" to={`/list?tab=all`}>
           全部

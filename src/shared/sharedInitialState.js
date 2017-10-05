@@ -18,7 +18,11 @@ export default {
   // 固定头部
   fixedHeader: true,
   // 菜单里显示添加按钮
-  showAddButton: true,
+  showAddButton: false,
   // 消息数量
-  messageCount: 0
+  messageCount: 0,
+  // 提示信息
+  alertText: "",
+  // laoding 话术
+  loadingText: ""
 };

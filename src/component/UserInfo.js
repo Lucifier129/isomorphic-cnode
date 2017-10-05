@@ -1,28 +1,54 @@
 import React from "react";
 import { Link } from "react-imvc/component";
 
-export default function UserInfo({ location, userInfo }) {
+export default function UserInfo({ location, userInfo, user, onLogout }) {
+  let showLogout =
+    location.pattern === "/user/:loginname" &&
+    userInfo &&
+    user &&
+    userInfo.loginname === user.loginname;
   return (
     <div className="user-info">
-      {!!userInfo && <User {...userInfo} />}
-      {!userInfo && <Login location={location} />}
+      <User if={!showLogout && userInfo} info={userInfo} />
+      <Login if={!showLogout && !userInfo} redirect={location.raw} />
+      <Logout if={showLogout} onLogout={onLogout} />
     </div>
   );
 }
 
-function Login({ location }) {
-  if (location.pathname === "/login") {
+function Login(props) {
+  if (!props.if) {
     return null;
   }
 
   return (
     <ul className="login-no">
-      <Link as="li" className="login" to={`/login?redirect=${location.raw}`}>登录</Link>
+      <Link as="li" className="login" to={`/login?redirect=${props.redirect}`}>
+        登录
+      </Link>
     </ul>
   );
 }
 
-function User({ loginname, avatar_url }) {
+function Logout(props) {
+  if (!props.if) {
+    return null;
+  }
+
+  return (
+    <ul className="login-no">
+      <li className="login" onClick={props.onLogout}>
+        退出
+      </li>
+    </ul>
+  );
+}
+
+function User(props) {
+  if (!props.if) {
+    return null;
+  }
+  let { loginname, avatar_url } = props.info;
   return (
     <Link as="div" to={`/user/${loginname}`} className="login-yes">
       <div className="avertar">{avatar_url && <img src={avatar_url} />}</div>

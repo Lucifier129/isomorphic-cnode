@@ -9,10 +9,10 @@ export default [
 		path: '/topic/:topicId',
 		controller: require('./page/detail/Controller'),
 	},
-	// {
-	// 	path: '/login',
-	// 	controller: require('./page/login/controller'),
-	// },
+	{
+		path: '/login',
+		controller: require('./page/login/Controller'),
+	},
 	{
 		path: '/user/:loginname',
 		controller: require('./page/user/Controller'),

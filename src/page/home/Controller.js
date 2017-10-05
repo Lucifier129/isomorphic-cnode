@@ -31,7 +31,7 @@ export default class extends Controller {
     let { COMPONENT_WILL_CREATE } = this.store.actions;
     let state = this.store.getState();
     let { searchParams } = state;
-    let { data } = await this.get("topics", searchParams);
+    let { data } = await this.get("/topics", searchParams);
     COMPONENT_WILL_CREATE(data);
   }
 
@@ -42,10 +42,6 @@ export default class extends Controller {
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
   }
-
-  // pageDidBack() {
-  //   this.KeepAlive = false
-  // }
 
   // 是否正在获取数据
   isFetching = false;
@@ -68,7 +64,7 @@ export default class extends Controller {
         page: state.searchParams.page + 1
       };
       this.isFetching = true;
-      let { data } = await this.get("topics", searchParams);
+      let { data } = await this.get("/topics", searchParams);
       SCROLL_TO_BOTTOM({
         data,
         searchParams

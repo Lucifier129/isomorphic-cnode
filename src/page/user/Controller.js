@@ -4,6 +4,7 @@ import * as Model from "./Model";
 import View from "./View";
 
 export default class extends Controller {
+  KeepAlive = true
   View = View;
   Model = Model;
 

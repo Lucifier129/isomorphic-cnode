@@ -14,7 +14,7 @@ function View({ state, handlers }) {
     <Layout state={state} handlers={handlers}>
       <dl className="about-info">
         <dt>关于项目</dt>
-        <dd>基于 cnodejs 的 api，采用 react-imvc 编写的 webapp</dd>
+        <dd>基于 cnodejs 的 api，采用 react-imvc 编写的 web app</dd>
         <dt>isomorphic-cnode 源码地址</dt>
         <dd>
           <a href="https://github.com/Lucifier129/isomorphic-cnode">

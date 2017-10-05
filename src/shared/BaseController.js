@@ -2,29 +2,61 @@
 import Controller from "react-imvc/controller";
 import querystring from "querystring";
 import sharedInitialState from "./sharedInitialState";
+import * as sharedActions from "./sharedActions";
 
 export default class extends Controller {
   preload = {
     main: "/css/main.css"
   };
-  // API 集合
-  API = {
-    userInfo: "/accesstoken",
-    topics: "/topics",
-    topic: "/topic"
-  };
-  // 拓展字段：是否需要登录才可以访问
-  needLogin = false;
 
   async getInitialState(initialState) {
-    let userInfo = await this.getUserInfo();
+    let { context } = this;
+
+    let userInfo = null;
+    try {
+      if (context.hasOwnProperty("userInfo")) {
+        userInfo = context.userInfo;
+      } else {
+        userInfo = await this.getUserInfo();
+        context.userInfo = userInfo;
+      }
+    } catch (_) {
+      context.userInfo = null;
+    }
+
+    let isLogin = this.isLogin();
+    let showAddButton = isLogin;
+
     return {
       ...sharedInitialState,
       ...initialState,
-      userInfo
+      userInfo,
+      isLogin,
+      showAddButton
     };
   }
 
+  /**
+     * 动态合并共享的 actions
+     */
+  getFinalActions(actions) {
+    return {
+      ...actions,
+      ...sharedActions
+    };
+  }
+
+  /**
+   * 数据重用后，将服务端的 userInfo 存入 context 里给其他页面使用
+   */
+  stateDidReuse(state) {
+    if (state.userInfo) {
+      this.context.userInfo = state.userInfo;
+    }
+  }
+
+  // 拓展字段：是否需要登录才可以访问
+  needLogin = false;
   async shouldComponentCreate() {
     // 如果需要登录却没登录，去登录页
     if (this.needLogin && !this.isLogin()) {
@@ -34,29 +66,23 @@ export default class extends Controller {
   }
 
   // 获取登录用户信息，将用户信息缓存在 context 里，所有页面都可以共享访问
-  async getUserInfo() {
-    let { API, context } = this;
-
-    if (context.hasOwnProperty("userInfo")) {
-      return context.userInfo;
-    }
-
-    let userInfo = null;
-    let accesstoken = this.cookie("accesstoken");
+  async getUserInfo(accesstoken) {
+    accesstoken = accesstoken || this.cookie("accesstoken");
 
     if (!accesstoken) {
-      return userInfo;
+      return null;
     }
 
-    try {
-      userInfo = await this.post("userInfo", { accesstoken });
-    } catch (error) {
-      userInfo = null;
+    let data = await this.post("/accesstoken", { accesstoken });
+    let { success, error_msg, ...userInfo } = data;
+
+    if (!success) {
+      throw new Error(error_msg);
     }
 
-    context.userInfo = userInfo;
     return userInfo;
   }
+
   // 判断是否登录
   isLogin() {
     return !!this.context.userInfo;
@@ -71,12 +97,25 @@ export default class extends Controller {
   }
 
   // 封装 post 方法，处理 cnode 跨域要求
-  post(api, params) {
+  post(api, params, options) {
     return super.post(api, params, {
       ...options,
       credentials: "omit"
     });
   }
+
+  // 隐藏提示信息
+  hideAlert = () => {
+    let { UPDATE_ALERT_TEXT } = this.store.actions;
+    UPDATE_ALERT_TEXT("");
+  };
+
+  // 显示提示信息
+  showAlert = text => {
+    let { UPDATE_ALERT_TEXT } = this.store.actions;
+    UPDATE_ALERT_TEXT(text);
+    setTimeout(this.hideAlert, 1000);
+  };
 
   // 打开菜单
   handleOpenMenu = () => {
@@ -100,5 +139,11 @@ export default class extends Controller {
         showMenu: false
       });
     }
+  };
+
+  // 退出登陆
+  handleLogout = () => {
+    this.removeCookie("accesstoken");
+    window.location.reload();
   };
 }

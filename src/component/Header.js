@@ -11,7 +11,7 @@ export default function Header({ state, handlers }) {
     messageCount,
     userInfo,
     location,
-    pageTitle,
+    pageTitle
   } = state;
   let { handleOpenMenu, handleCloseMenu } = handlers;
   let headClassName = classnames({
@@ -19,6 +19,7 @@ export default function Header({ state, handlers }) {
     "fix-header": fixedHeader,
     "no-fix": !fixedHeader
   });
+  
   return (
     <div>
       <PageCover if={showMenu && fixedHeader} onClick={handleCloseMenu} />
@@ -29,12 +30,7 @@ export default function Header({ state, handlers }) {
           <Message messageCount={messageCount} showAddButton={showAddButton} />
         </div>
       </header>
-      <Menu
-        if={showMenu && fixedHeader}
-        userInfo={userInfo}
-        location={location}
-        onClose={handleCloseMenu}
-      />
+      <Menu if={showMenu && fixedHeader} state={state} handlers={handlers} />
     </div>
   );
 }
