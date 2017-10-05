@@ -6,18 +6,18 @@ import * as _ from "../../shared/util";
 import Layout from "../../component/Layout";
 
 export default function View({ state, handlers }) {
-  let { isLogin, topic, activeReplyId } = state;
+  let { isLogin, topic, activeReplyId, replyOfOthers } = state;
 
   if (!topic) {
     return (
-      <Layout state={state} handlers={handlers}>
+      <Layout>
         <NoTopic />;
       </Layout>
     );
   }
 
   return (
-    <Layout state={state} handlers={handlers}>
+    <Layout>
       <div id="page">
         <h2 className="topic-title">{topic.title}</h2>
         <TopicAuthorInfo topic={topic} />
@@ -31,6 +31,7 @@ export default function View({ state, handlers }) {
         />
         <TopicReplyList
           replies={topic.replies}
+          replyOfOthers={replyOfOthers}
           activeReplyId={activeReplyId}
           isLogin={isLogin}
           handlers={handlers}
@@ -120,7 +121,7 @@ function ReplyForm(props) {
   );
 }
 
-function TopicReplyList({ replies, activeReplyId, isLogin, handlers }) {
+function TopicReplyList({ replies, replyOfOthers, activeReplyId, isLogin, handlers }) {
   return (
     <section className="reply-list">
       <ul>
@@ -128,6 +129,7 @@ function TopicReplyList({ replies, activeReplyId, isLogin, handlers }) {
           <PureReplyItem
             key={reply.id}
             reply={reply}
+            replyContent={replyOfOthers[reply.id]}
             showReplyForm={isLogin && activeReplyId === reply.id}
             handlers={handlers}
           />
@@ -139,7 +141,7 @@ function TopicReplyList({ replies, activeReplyId, isLogin, handlers }) {
 
 const PureReplyItem = purify()(ReplyItem)
 
-function ReplyItem({ reply, handlers, showReplyForm }) {
+function ReplyItem({ reply, replyContent, handlers, showReplyForm }) {
   return (
     <li>
       <section className="user">
@@ -178,6 +180,7 @@ function ReplyItem({ reply, handlers, showReplyForm }) {
         if={showReplyForm}
         id={reply.id}
         name={`replyOfOthers.${reply.id}`}
+        value={replyContent}
         onSubmit={handlers.handleReplyOther}
       />
     </li>

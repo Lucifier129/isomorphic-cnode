@@ -1,51 +1,72 @@
 import React from "react";
 import classnames from "classnames";
 import { Link } from "react-imvc/component";
+import connect from 'react-imvc/hoc/connect'
 import UserInfo from "./UserInfo";
 
-export default function Menu(props) {
-  let { state, handlers } = props;
-  let { location, userInfo, user } = state;
+const withData = connect(({ state, handlers }) => {
+  return {
+    showMenu: state.showMenu,
+    onClose: handlers.handleCloseMenu,
+  }
+})
+
+export default withData(Menu)
+
+function Menu(props) {
   let className = classnames({
     "nav-list": true,
-    show: props.if
+    show: props.showMenu
   });
 
   return (
     <section
       id="sideBar"
       className={className}
-      onClick={handlers.handleCloseMenu}
+      onClick={props.onClose}
     >
-      <UserInfo
-        location={location}
-        userInfo={userInfo}
-        user={user}
-        onLogout={handlers.handleLogout}
-      />
+      <UserInfo />
       <ul className="list-ul">
-        <Link as="li" className="icon-quanbu iconfont" to={`/list?tab=all`}>
+        <LinkWithCheck className="icon-quanbu iconfont" to={`/list?tab=all`}>
           全部
-        </Link>
-        <Link as="li" className="icon-hao iconfont" to={`/list?tab=good`}>
+        </LinkWithCheck>
+        <LinkWithCheck className="icon-hao iconfont" to={`/list?tab=good`}>
           精华
-        </Link>
-        <Link as="li" className="icon-fenxiang iconfont" to={`/list?tab=share`}>
+        </LinkWithCheck>
+        <LinkWithCheck className="icon-fenxiang iconfont" to={`/list?tab=share`}>
           分享
-        </Link>
-        <Link as="li" className="icon-wenda iconfont" to={`/list?tab=ask`}>
+        </LinkWithCheck>
+        <LinkWithCheck className="icon-wenda iconfont" to={`/list?tab=ask`}>
           问答
-        </Link>
-        <Link as="li" className="icon-zhaopin iconfont" to={`/list?tab=job`}>
+        </LinkWithCheck>
+        <LinkWithCheck className="icon-zhaopin iconfont" to={`/list?tab=job`}>
           招聘
-        </Link>
-        <Link as="li" className="icon-xiaoxi iconfont line" to={`/message`}>
+        </LinkWithCheck>
+        <LinkWithCheck className="icon-xiaoxi iconfont line" to={`/message`}>
           消息
-        </Link>
-        <Link as="li" className="icon-about iconfont" to={`/about`}>
+        </LinkWithCheck>
+        <LinkWithCheck className="icon-about iconfont" to={`/about`}>
           关于
-        </Link>
+        </LinkWithCheck>
       </ul>
     </section>
   );
 }
+
+const withCurrentPath = connect(({ state }) => {
+  return {
+    current: state.location.raw
+  }
+})
+
+const LinkWithCheck = withCurrentPath(function (props) {
+  if (props.to === props.current) {
+    let { to, current, ...rest } = props
+    return <li {...rest} />
+  }
+
+  let { current, ...rest } = props
+  return <Link as="li" {...rest} />
+})
+
+

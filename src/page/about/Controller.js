@@ -11,7 +11,7 @@ export default class extends Controller {
 
 function View({ state, handlers }) {
   return (
-    <Layout state={state} handlers={handlers}>
+    <Layout>
       <dl className="about-info">
         <dt>关于项目</dt>
         <dd>基于 cnodejs 的 api，采用 react-imvc 编写的 web app</dd>

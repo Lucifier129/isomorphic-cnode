@@ -1,7 +1,16 @@
 import React from "react";
+import connect from 'react-imvc/hoc/connect'
 
-export default function Loading(props) {
-  if (!props.if) {
+const withData = connect(({ state }) => {
+  return {
+    content: state.loadingText
+  }
+})
+
+export default withData(Loading)
+
+function Loading(props) {
+  if (!props.content) {
     return null;
   }
   return (

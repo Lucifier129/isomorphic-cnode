@@ -1,8 +1,8 @@
 /**
  * actions of method
  */
-import { linkUsers } from "../../shared/util";
-import { markdown } from "markdown";
+import { UPDATE_HTML_TITLE } from '../../shared/sharedActions'
+import { markdown } from 'markdown'
 
 export const initialState = {
   pageTitle: "详情",
@@ -10,7 +10,6 @@ export const initialState = {
   activeReplyId: null,
   replyOfOthers: {},
   replyOfTopic: "",
-  suffix: `\n来自 <a class="from" href="https://github.com/Lucifier129/isomorphic-cnode">isomorphic-cnode</a>`
 };
 
 /**
@@ -39,20 +38,14 @@ export const TOGGLE_REPLY_FORM = (state, { activeReplyId }) => {
   }
 };
 
-export const UPDATE_HTML_TITLE = (state, title) => {
-  let html = {
-    ...state.html,
-    title
-  };
-  return {
-    ...state,
-    html
-  };
-};
-
 export const SHOW_REPLY_FORM = (state, activeReplyId) => {
-  let replyOfOthers = { ...state.replyOfOthers };
-  replyOfOthers[activeReplyId] = replyOfOthers[activeReplyId] || "";
+  let replyOfOthers = state.replyOfOthers;
+
+  if (!replyOfOthers[activeReplyId]) {
+    replyOfOthers = {...replyOfOthers}
+    let replyItem = state.topic.replies.find(item => item.id === activeReplyId)
+    replyOfOthers[activeReplyId] = `@${replyItem.author.loginname} `
+  }
 
   return {
     ...state,
@@ -96,41 +89,56 @@ export const LIKE_REPLY = (state, { action, replyId }) => {
   };
 };
 
-export let ADD_REPLY = async (state, replyId) => {
-  let { userInfo, topic, suffix, replyToReply, replyToTopic } = state;
-  let { token: accesstoken } = userInfo;
-  let { id: topicId } = topic;
-  let replyContent = linkUsers(replyId != null ? replyToReply : replyToTopic);
-  let content =
-    `<div class="markdown-text">${markdown.toHTML(replyContent)}</div>` +
-    suffix;
+export const REPLY_TO_TOPIC = (state, payload) => {
+  state = ADD_REPLY(state, payload)
+  return {
+    ...state,
+    replyOfTopic: ''
+  }
+}
+
+export const REPLY_TO_OTHER = (state, { replyId, newReplyId, content }) => {
+  state = ADD_REPLY(state, {
+    replyId: newReplyId,
+    content: content,
+  })
+  
+  let replyOfOthers = {
+    ...state.replyOfOthers,
+    [replyId]: ''
+  }
+
+  return {
+    ...state,
+    replyOfOthers,
+  }
+}
+
+export const ADD_REPLY = (state, { replyId, content }) => {
+  let { userInfo, topic } = state;
+  let replyItem = createReplyItem({ replyId, content, userInfo })
+
+  topic = {
+    ...topic,
+    replies: topic.replies.concat(replyItem)
+  }
+
+  return {
+    ...state,
+    topic
+  };
+};
+
+function createReplyItem({replyId, content, userInfo}) {
   let create_at = new Date().getTime();
-
-  let newReplyId = await addReply({
-    accesstoken,
-    topicId: topic.id,
-    replyId,
-    content
-  });
-
-  let replyItem = {
-    id: newReplyId,
+  return {
+    id: replyId,
     author: {
       loginname: userInfo.loginname,
       avatar_url: userInfo.avatar_url
     },
-    content: content,
+    content: markdown.toHTML(content),
     ups: [],
     create_at
   };
-
-  return {
-    ...state,
-    [replyId ? "replyToReply" : "replyToTopic"]: "",
-    curReplyId: null,
-    topic: {
-      ...topic,
-      replies: topic.replies.concat(replyItem)
-    }
-  };
-};
+}

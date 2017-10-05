@@ -9,7 +9,7 @@ export default function View({ state, handlers }) {
   let currentData = user[`recent_${type}`] || [];
 
   return (
-    <Layout state={state} handlers={handlers}>
+    <Layout>
       <UserInfo user={user} />
       <UserTopics
         type={type}
@@ -97,7 +97,7 @@ function Message(props) {
           src={author.avatar_url}
           to={`/user/${author.loginname}`}
         />
-        <Link as="div" to={`/topic/${id}`}>
+        <Link as="div" to={`/topic/${id}`} style={{ 'width': '100%' }}>
           <div className="t-title">{title}</div>
           <span className="cl">
             <span className="name">{author.loginname}</span>

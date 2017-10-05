@@ -1,19 +1,33 @@
 import React, { Component } from "react";
 import classnames from "classnames";
 import { Link } from "react-imvc/component";
+import connect from 'react-imvc/hoc/connect'
 import Menu from "./Menu";
 
-export default function Header({ state, handlers }) {
+const withData = connect(({ state, handlers }) => {
+  return {
+    fixedHeader: state.fixedHeader,
+    showMenu: state.showMenu,
+    pageTitle: state.pageTitle,
+    messageCount: state.messageCount,
+    showAddButton: state.showAddButton,
+    onCloseMenu: handlers.handleCloseMenu,
+    onOpenMenu: handlers.handleOpenMenu,
+  }
+})
+
+export default withData(Header)
+
+function Header(props) {
   let {
     showMenu,
     fixedHeader,
     showAddButton,
     messageCount,
-    userInfo,
-    location,
-    pageTitle
-  } = state;
-  let { handleOpenMenu, handleCloseMenu } = handlers;
+    pageTitle,
+    onCloseMenu,
+    onOpenMenu,
+  } = props;
   let headClassName = classnames({
     show: showMenu && fixedHeader,
     "fix-header": fixedHeader,
@@ -22,15 +36,15 @@ export default function Header({ state, handlers }) {
   
   return (
     <div>
-      <PageCover if={showMenu && fixedHeader} onClick={handleCloseMenu} />
+      <PageCover if={showMenu && fixedHeader} onClick={onCloseMenu} />
       <header id="hd" className={headClassName}>
         <div className="nv-toolbar">
-          <Toolbar if={fixedHeader} onClick={handleOpenMenu} />
+          <Toolbar if={fixedHeader} onClick={onOpenMenu} />
           <span>{pageTitle}</span>
           <Message messageCount={messageCount} showAddButton={showAddButton} />
         </div>
       </header>
-      <Menu if={showMenu && fixedHeader} state={state} handlers={handlers} />
+      <Menu />
     </div>
   );
 }

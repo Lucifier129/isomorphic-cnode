@@ -5,15 +5,15 @@ import BackToTop from "./BackToTop";
 import Alert from "./Alert";
 import Loading from "./Loading";
 
-export default function Layout({ state, handlers, children }) {
+export default function Layout({ children }) {
   return (
     <div style={{ height: "100%", background: "#fff" }}>
       <Style name="main" />
-      <Header state={state} handlers={handlers} />
+      <Header />
       {children}
       <BackToTop />
-      <Alert if={state.alertText} content={state.alertText} />
-      <Loading if={state.loadingText} content={state.loadingText} />
+      <Alert />
+      <Loading />
     </div>
   );
 }

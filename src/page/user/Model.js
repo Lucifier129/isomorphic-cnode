@@ -1,6 +1,7 @@
 /**
  * Model
  */
+import { UPDATE_HTML_TITLE } from '../../shared/sharedActions'
 
 export const initialState = {
   pageTitle: "用户",
@@ -14,18 +15,6 @@ export const COMPONENT_WILL_CREATE = (state, { user }) => {
   return {
     ...state,
     user
-  };
-};
-
-export const UPDATE_HTML_TITLE = (state, title) => {
-  let html = {
-    ...state.html,
-    title
-  };
-
-  return {
-    ...state,
-    html
   };
 };
 

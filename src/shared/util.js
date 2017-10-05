@@ -1,8 +1,3 @@
-export function accessProp(obj, path = []) {
-  return path.reduce((target, name) => {
-    return target[name];
-  }, obj);
-}
 
 /** 获取标签样式
  *  @param {string} tab Tab分类

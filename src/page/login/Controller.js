@@ -1,14 +1,17 @@
+import React from "react";
+import { Input } from "react-imvc/component";
+import Layout from "../../component/Layout";
 import Controller from "../../shared/BaseController";
-import View from "./View";
-import * as Model from "./Model";
 
 export default class extends Controller {
   View = View;
-  Model = Model;
+  
+  initialState = {
+    token: ''
+  }
 
   handleLogin = async () => {
     let { context } = this;
-    let { UPDATE_LOADING_TEXT } = this.store.actions;
     let { token, location } = this.store.getState();
 
     if (!token || token.length !== 36) {
@@ -16,10 +19,11 @@ export default class extends Controller {
       return;
     }
 
-    UPDATE_LOADING_TEXT("登录中……");
+    this.showLoading("登录中……");
 
     try {
-      let userInfo = await this.getUserInfo(token);
+      let userInfo = await this.fetchUserInfo(token);
+
       if (!userInfo) {
         throw new Error("登陆失败，请重试");
       }
@@ -33,8 +37,35 @@ export default class extends Controller {
       window.location.replace(targetPath);
     } catch (error) {
       this.showAlert(error.message);
-    } finally {
-      UPDATE_LOADING_TEXT("");
     }
+
+    this.hideLoading();
   };
+}
+
+
+function View({ state, handlers }) {
+  let { alertText, loadingText } = state;
+  let { handleLogin } = handlers;
+
+  return (
+    <Layout>
+      <section className="page-body">
+        <div className="label">
+          <Input
+            name="token"
+            className="txt"
+            type="text"
+            placeholder="Access Token"
+            maxLength="36"
+          />
+        </div>
+        <div className="label">
+          <button className="button" onClick={handleLogin}>
+            登录
+          </button>
+        </div>
+      </section>
+    </Layout>
+  );
 }

@@ -6,7 +6,7 @@ import * as _ from "../../shared/util";
 
 export default function View({ state, handlers }) {
   return (
-    <Layout state={state} handlers={handlers}>
+    <Layout>
       <section id="page">
         <ul className="posts-list">
           {state.topics.map(topic => <PureTopic {...topic} key={topic.id} />)}

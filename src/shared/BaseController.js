@@ -10,20 +10,7 @@ export default class extends Controller {
   };
 
   async getInitialState(initialState) {
-    let { context } = this;
-
-    let userInfo = null;
-    try {
-      if (context.hasOwnProperty("userInfo")) {
-        userInfo = context.userInfo;
-      } else {
-        userInfo = await this.getUserInfo();
-        context.userInfo = userInfo;
-      }
-    } catch (_) {
-      context.userInfo = null;
-    }
-
+    let userInfo = await this.getUserInfo()
     let isLogin = this.isLogin();
     let showAddButton = isLogin;
 
@@ -65,21 +52,41 @@ export default class extends Controller {
     }
   }
 
-  // 获取登录用户信息，将用户信息缓存在 context 里，所有页面都可以共享访问
-  async getUserInfo(accesstoken) {
-    accesstoken = accesstoken || this.cookie("accesstoken");
+  pageWillLeave() {
+    this.showLoading('加载中……')
+  }
 
+  pageDidBack() {
+    this.hideLoading()
+  }
+
+  async getUserInfo() {
+    let { context } = this
+    // 获取登录用户信息，将用户信息缓存在 context 里，所有页面都可以共享访问
+    let userInfo = null;
+
+    try {
+      if (context.hasOwnProperty("userInfo")) {
+        userInfo = context.userInfo;
+      } else {
+        let accesstoken = this.cookie("accesstoken")
+        userInfo = await this.fetchUserInfo(accesstoken);
+        context.userInfo = userInfo;
+      }
+    } catch (_) {
+      context.userInfo = null;
+    }
+
+    return userInfo
+  }
+
+  async fetchUserInfo(accesstoken) {
     if (!accesstoken) {
       return null;
     }
 
     let data = await this.post("/accesstoken", { accesstoken });
-    let { success, error_msg, ...userInfo } = data;
-
-    if (!success) {
-      throw new Error(error_msg);
-    }
-
+    let { success, error_msg, ...userInfo } = data
     return userInfo;
   }
 
@@ -89,19 +96,43 @@ export default class extends Controller {
   }
 
   // 封装 get 方法，处理 cnode 跨域要求
-  get(api, params, options) {
-    return super.get(api, params, {
+  get(api, params, options={}) {
+    options = {
       ...options,
-      credentials: "omit"
-    });
+      credentials: "omit",
+      headers: {
+        ...options.headers,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    }
+    return super.get(api, params, options);
   }
 
   // 封装 post 方法，处理 cnode 跨域要求
-  post(api, params, options) {
-    return super.post(api, params, {
+  post(api, params, options={}) {
+    options = {
       ...options,
-      credentials: "omit"
-    });
+      credentials: "omit",
+      method: 'POST',
+      headers: {
+        ...options.headers,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: querystring.stringify(params),
+    }
+    return this.fetch(api, options);
+  }
+
+  // 统一抛错, get/post 方法底层调用的是 fetch 方法
+  async fetch(url, options) {
+    let data = await super.fetch(url, options)
+    let { success, error_msg, ...userInfo } = data;
+    
+    if (!success) {
+      throw new Error(error_msg);
+    }
+
+    return data
   }
 
   // 隐藏提示信息
@@ -117,28 +148,26 @@ export default class extends Controller {
     setTimeout(this.hideAlert, 1000);
   };
 
+  showLoading = (content) => {
+    let { UPDATE_LOADING_TEXT } = this.store.actions
+    UPDATE_LOADING_TEXT(content)
+  }
+
+  hideLoading = () => {
+    let { UPDATE_LOADING_TEXT } = this.store.actions
+    UPDATE_LOADING_TEXT('')
+  }
+
   // 打开菜单
   handleOpenMenu = () => {
-    let state = this.store.getState();
-    let { UPDATE_STATE } = this.store.actions;
-
-    if (!state.showMenu) {
-      UPDATE_STATE({
-        showMenu: true
-      });
-    }
+    let { OPEN_MENU } = this.store.actions;
+    OPEN_MENU()
   };
 
   // 关闭菜单
   handleCloseMenu = () => {
-    let state = this.store.getState();
-    let { UPDATE_STATE } = this.store.actions;
-
-    if (state.showMenu) {
-      UPDATE_STATE({
-        showMenu: false
-      });
-    }
+    let { CLOSE_MENU } = this.store.actions;
+    CLOSE_MENU()
   };
 
   // 退出登陆

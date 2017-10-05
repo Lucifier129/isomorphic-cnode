@@ -1,7 +1,19 @@
 import React from "react";
 import { Link } from "react-imvc/component";
+import connect from 'react-imvc/hoc/connect'
 
-export default function UserInfo({ location, userInfo, user, onLogout }) {
+const withData = connect(({ state, handlers }) => {
+  return {
+    location: state.location,
+    userInfo: state.userInfo,
+    user: state.user,
+    onLogout: handlers.handleLogout,
+  }
+})
+
+export default withData(UserInfo)
+
+function UserInfo({ location, userInfo, user, onLogout }) {
   let showLogout =
     location.pattern === "/user/:loginname" &&
     userInfo &&

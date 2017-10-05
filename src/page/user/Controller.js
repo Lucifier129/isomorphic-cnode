@@ -1,5 +1,4 @@
 import Controller from "../../shared/BaseController";
-import * as _ from "../../shared/util";
 import * as Model from "./Model";
 import View from "./View";
 

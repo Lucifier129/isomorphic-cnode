@@ -1,7 +1,16 @@
 import React from "react";
+import connect from 'react-imvc/hoc/connect'
 
-export default function Alert(props) {
-  if (!props.if) {
+const withData = connect(({ state }) => {
+  return {
+    content: state.alertText
+  }
+})
+
+export default withData(Alert)
+
+function Alert(props) {
+  if (!props.content) {
     return null;
   }
   return (
