@@ -17,10 +17,10 @@ export default [
 		path: '/user/:loginname',
 		controller: require('./page/user/Controller'),
 	},
-	// {
-	// 	path: '/add',
-	// 	controller: require('./page/add/controller'),
-	// },
+	{
+		path: '/add',
+		controller: require('./page/add/controller'),
+	},
 	// {
 	// 	path: '/message',
 	// 	controller: require('./page/message/controller'),

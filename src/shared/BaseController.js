@@ -16,10 +16,10 @@ export default class extends Controller {
 
     return {
       ...sharedInitialState,
-      ...initialState,
+      showAddButton,
       userInfo,
       isLogin,
-      showAddButton
+      ...initialState,
     };
   }
 
@@ -43,10 +43,10 @@ export default class extends Controller {
   }
 
   // 拓展字段：是否需要登录才可以访问
-  needLogin = false;
+  NeedLogin = false;
   async shouldComponentCreate() {
     // 如果需要登录却没登录，去登录页
-    if (this.needLogin && !this.isLogin()) {
+    if (this.NeedLogin && !this.isLogin()) {
       this.redirect("/login");
       return false;
     }
