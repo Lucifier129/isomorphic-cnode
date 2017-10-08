@@ -1,11 +1,11 @@
 {
-  "index": "index-82382b.js",
+  "index": "index-95ef22.js",
   "page\\home/home": "page\\home/home-8d546d.js",
   "page\\detail/detail": "page\\detail/detail-0c182b.js",
-  "page\\login/login": "page\\login/login-2d39b1.js",
+  "page\\login/login": "page\\login/login-afc029.js",
   "page\\user/user": "page\\user/user-a89fe0.js",
-  "page\\add/add": "page\\add/add-8caef6.js",
-  "page\\message/message": "page\\message/message-bc2118.js",
+  "page\\add/add": "page\\add/add-a9b8d5.js",
+  "page\\message/message": "page\\message/message-adae31.js",
   "page\\about/about": "page\\about/about-0fefc8.js",
-  "vendor": "vendor-82382b.js"
+  "vendor": "vendor-95ef22.js"
 }

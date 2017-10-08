@@ -46,6 +46,7 @@ var _class = function (_Controller) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = _class.__proto__ || Object.getPrototypeOf(_class)).call.apply(_ref, [this].concat(args))), _this), _this.View = View, _this.initialState = {
+      pageTitle: "登录",
       token: ""
     }, _this.handleLogin = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       var _this2, context, _this$store$getState, token, location, userInfo;

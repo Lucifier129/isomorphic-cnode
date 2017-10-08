@@ -7,6 +7,7 @@ export default class extends Controller {
   View = View;
 
   initialState = {
+    pageTitle: "登录",
     token: ""
   };
 

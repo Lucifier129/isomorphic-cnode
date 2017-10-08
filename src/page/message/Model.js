@@ -1,4 +1,5 @@
 export const initialState = {
+  pageTitle: "消息",
   tab: "hasNotRead",
   hasRead: [],
   hasNotRead: []
