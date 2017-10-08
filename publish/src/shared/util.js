@@ -3,7 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.accessProp = accessProp;
 exports.getTabClassName = getTabClassName;
 exports.getTitleByTab = getTitleByTab;
 exports.getTabStr = getTabStr;
@@ -12,15 +11,6 @@ exports.fetchUsers = fetchUsers;
 exports.linkUsers = linkUsers;
 exports.fmtDate = fmtDate;
 exports.MillisecondToDate = MillisecondToDate;
-exports.parseUserList = parseUserList;
-function accessProp(obj) {
-  var path = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-
-  return path.reduce(function (target, name) {
-    return target[name];
-  }, obj);
-}
-
 /** 获取标签样式
  *  @param {string} tab Tab分类
  *  @param {bool} good 是否是精华帖
@@ -118,26 +108,6 @@ function getLastTimeStr(time, friendly) {
     return fmtDate(new Date(time), "yyyy-MM-dd hh:mm");
   }
 }
-
-var getCheck = exports.getCheck = {
-  checkEmail: function checkEmail(val) {
-    var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    if (filter.test(val)) {
-      return true;
-    } else {
-      return false;
-    }
-  },
-  checkPhone: function checkPhone(val) {
-    var filter = /^1\d{10}$/;
-
-    if (filter.test(val)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-};
 
 /**
  * 从文本中提取出@username 标记的用户名数组
@@ -239,47 +209,4 @@ function MillisecondToDate(msd) {
     }
   }
   return str;
-}
-
-/**
- * 从文本中提取出@username 标记的用户名数组
- * @param {String} text 文本内容
- * @return {Array} 用户名数组
- */
-function parseUserList(text) {
-  if (!text) {
-    return [];
-  }
-
-  var ignoreRegexs = [/```.+?```/g, // 去除单行的 ```
-  /^```[\s\S]+?^```/gm, // ``` 里面的是 pre 标签内容
-  /`[\s\S]+?`/g, // 同一行中，`some code` 中内容也不该被解析
-  /^    .*/gm, // 4个空格也是 pre 标签，在这里 . 不会匹配换行
-  /\b\S*?@[^\s]*?\..+?\b/g, // somebody@gmail.com 会被去除
-  /\[@.+?\]\(\/.+?\)/g // 已经被 link 的 username
-  ];
-
-  ignoreRegexs.forEach(function (ignore_regex) {
-    text = text.replace(ignore_regex, "");
-  });
-
-  var results = text.match(/@[a-z0-9\-_]+\b/gim);
-  var names = [];
-  if (results) {
-    for (var i = 0, l = results.length; i < l; i++) {
-      var s = results[i];
-      //remove leading char @
-      s = s.slice(1);
-      names.push(s);
-    }
-  }
-  var map = {};
-  names = names.filter(function (name) {
-    if (map[name]) {
-      return false;
-    }
-    map[name] = true;
-    return true;
-  });
-  return names;
 }

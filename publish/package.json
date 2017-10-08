@@ -1,6 +1,6 @@
 {
   "name": "isomorphic-cnode",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "inspired by [Vue-cnodejs](https://github.com/shinygang/Vue-cnodejs), rewrited with `react`",
   "main": "imvc.config.js",
   "scripts": {
@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/Lucifier129/isomorphic-cnode#readme",
   "dependencies": {
-    "react-imvc": "^1.0.7",
+    "markdown": "^0.5.0",
+    "react-imvc": "^1.1.1",
     "react-lite": "^0.15.38"
   }
 }

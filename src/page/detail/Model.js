@@ -1,15 +1,15 @@
 /**
  * actions of method
  */
-import { UPDATE_HTML_TITLE } from '../../shared/sharedActions'
-import { markdown } from 'markdown'
+import { UPDATE_HTML_TITLE } from "../../shared/sharedActions";
+import { markdown } from "markdown";
 
 export const initialState = {
   pageTitle: "详情",
   topic: null,
   activeReplyId: null,
   replyOfOthers: {},
-  replyOfTopic: "",
+  replyOfTopic: ""
 };
 
 /**
@@ -17,7 +17,9 @@ export const initialState = {
  * 首屏数据为 topic
  */
 export const COMPONENT_WILL_CREATE = (state, { topic }) => {
-  state = UPDATE_HTML_TITLE(state, topic.title);
+  if (topic) {
+    state = UPDATE_HTML_TITLE(state, topic.title);
+  }
   return {
     ...state,
     topic
@@ -42,9 +44,9 @@ export const SHOW_REPLY_FORM = (state, activeReplyId) => {
   let replyOfOthers = state.replyOfOthers;
 
   if (!replyOfOthers[activeReplyId]) {
-    replyOfOthers = {...replyOfOthers}
-    let replyItem = state.topic.replies.find(item => item.id === activeReplyId)
-    replyOfOthers[activeReplyId] = `@${replyItem.author.loginname} `
+    replyOfOthers = { ...replyOfOthers };
+    let replyItem = state.topic.replies.find(item => item.id === activeReplyId);
+    replyOfOthers[activeReplyId] = `@${replyItem.author.loginname} `;
   }
 
   return {
@@ -90,38 +92,38 @@ export const LIKE_REPLY = (state, { action, replyId }) => {
 };
 
 export const REPLY_TO_TOPIC = (state, payload) => {
-  state = ADD_REPLY(state, payload)
+  state = ADD_REPLY(state, payload);
   return {
     ...state,
-    replyOfTopic: ''
-  }
-}
+    replyOfTopic: ""
+  };
+};
 
 export const REPLY_TO_OTHER = (state, { replyId, newReplyId, content }) => {
   state = ADD_REPLY(state, {
     replyId: newReplyId,
-    content: content,
-  })
-  
+    content: content
+  });
+
   let replyOfOthers = {
     ...state.replyOfOthers,
-    [replyId]: ''
-  }
+    [replyId]: ""
+  };
 
   return {
     ...state,
-    replyOfOthers,
-  }
-}
+    replyOfOthers
+  };
+};
 
 export const ADD_REPLY = (state, { replyId, content }) => {
   let { userInfo, topic } = state;
-  let replyItem = createReplyItem({ replyId, content, userInfo })
+  let replyItem = createReplyItem({ replyId, content, userInfo });
 
   topic = {
     ...topic,
     replies: topic.replies.concat(replyItem)
-  }
+  };
 
   return {
     ...state,
@@ -129,7 +131,7 @@ export const ADD_REPLY = (state, { replyId, content }) => {
   };
 };
 
-function createReplyItem({replyId, content, userInfo}) {
+function createReplyItem({ replyId, content, userInfo }) {
   let create_at = new Date().getTime();
   return {
     id: replyId,

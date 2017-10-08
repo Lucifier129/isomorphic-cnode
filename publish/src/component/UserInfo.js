@@ -3,7 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = UserInfo;
 
 var _react = require("react");
 
@@ -11,24 +10,45 @@ var _react2 = _interopRequireDefault(_react);
 
 var _component = require("react-imvc/component");
 
+var _connect = require("react-imvc/hoc/connect");
+
+var _connect2 = _interopRequireDefault(_connect);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function UserInfo(_ref) {
-  var location = _ref.location,
-      userInfo = _ref.userInfo;
+var withData = (0, _connect2.default)(function (_ref) {
+  var state = _ref.state,
+      handlers = _ref.handlers;
 
+  return {
+    location: state.location,
+    userInfo: state.userInfo,
+    user: state.user,
+    onLogout: handlers.handleLogout
+  };
+});
+
+exports.default = withData(UserInfo);
+
+
+function UserInfo(_ref2) {
+  var location = _ref2.location,
+      userInfo = _ref2.userInfo,
+      user = _ref2.user,
+      onLogout = _ref2.onLogout;
+
+  var showLogout = location.pattern === "/user/:loginname" && userInfo && user && userInfo.loginname === user.loginname;
   return _react2.default.createElement(
     "div",
     { className: "user-info" },
-    !!userInfo && _react2.default.createElement(User, userInfo),
-    !userInfo && _react2.default.createElement(Login, { location: location })
+    _react2.default.createElement(User, { "if": !showLogout && userInfo, info: userInfo }),
+    _react2.default.createElement(Login, { "if": !showLogout && !userInfo, redirect: location.raw }),
+    _react2.default.createElement(Logout, { "if": showLogout, onLogout: onLogout })
   );
 }
 
-function Login(_ref2) {
-  var location = _ref2.location;
-
-  if (location.pathname === "/login") {
+function Login(props) {
+  if (!props.if) {
     return null;
   }
 
@@ -37,15 +57,35 @@ function Login(_ref2) {
     { className: "login-no" },
     _react2.default.createElement(
       _component.Link,
-      { as: "li", className: "login", to: "/login?redirect=" + location.raw },
+      { as: "li", className: "login", to: "/login?redirect=" + props.redirect },
       "\u767B\u5F55"
     )
   );
 }
 
-function User(_ref3) {
-  var loginname = _ref3.loginname,
-      avatar_url = _ref3.avatar_url;
+function Logout(props) {
+  if (!props.if) {
+    return null;
+  }
+
+  return _react2.default.createElement(
+    "ul",
+    { className: "login-no" },
+    _react2.default.createElement(
+      "li",
+      { className: "login", onClick: props.onLogout },
+      "\u9000\u51FA"
+    )
+  );
+}
+
+function User(props) {
+  if (!props.if) {
+    return null;
+  }
+  var _props$info = props.info,
+      loginname = _props$info.loginname,
+      avatar_url = _props$info.avatar_url;
 
   return _react2.default.createElement(
     _component.Link,

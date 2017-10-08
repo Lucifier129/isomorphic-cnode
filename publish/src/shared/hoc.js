@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.purify = undefined;
+exports.staticify = exports.purify = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -39,5 +39,33 @@ var purify = exports.purify = function purify() {
 
             return Pure;
         }(_react2.default.PureComponent);
+    };
+};
+
+var staticify = exports.staticify = function staticify() {
+    return function (InputComponent) {
+        return function (_React$Component) {
+            _inherits(Static, _React$Component);
+
+            function Static() {
+                _classCallCheck(this, Static);
+
+                return _possibleConstructorReturn(this, (Static.__proto__ || Object.getPrototypeOf(Static)).apply(this, arguments));
+            }
+
+            _createClass(Static, [{
+                key: 'shouldComponentUpdate',
+                value: function shouldComponentUpdate() {
+                    return false; // always false to make sure just rendering once
+                }
+            }, {
+                key: 'render',
+                value: function render() {
+                    return _react2.default.createElement(InputComponent, this.props);
+                }
+            }]);
+
+            return Static;
+        }(_react2.default.Component);
     };
 };

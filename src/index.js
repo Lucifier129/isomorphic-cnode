@@ -21,10 +21,10 @@ export default [
 		path: '/add',
 		controller: require('./page/add/controller'),
 	},
-	// {
-	// 	path: '/message',
-	// 	controller: require('./page/message/controller'),
-	// },
+	{
+		path: '/message',
+		controller: require('./page/message/controller'),
+	},
 	{
 		path: '/about',
 		controller: require('./page/about/controller'),

@@ -1,10 +1,10 @@
 import Controller from "../../shared/BaseController";
 import View from "./View";
 import * as Model from "./Model";
-import * as _ from '../../shared/util'
-import { markdown } from 'markdown'
+import * as _ from "../../shared/util";
+import { markdown } from "markdown";
 
-const replySuffix = `\n来自 [isomorphic-cnode](https://github.com/Lucifier129/isomorphic-cnode)`
+const replySuffix = `\n来自 [isomorphic-cnode](https://lucifier129.github.io/isomorphic-cnode/publish/static/)`;
 
 export default class extends Controller {
   KeepAlive = true;
@@ -15,8 +15,12 @@ export default class extends Controller {
     let { COMPONENT_WILL_CREATE } = this.store.actions;
     let state = this.store.getState();
     let topicId = state.location.params.topicId;
-    let { data: topic } = await this.get(`/topic/${topicId}`);
-    COMPONENT_WILL_CREATE({ topic });
+    try {
+      let { data: topic } = await this.get(`/topic/${topicId}`);
+      COMPONENT_WILL_CREATE({ topic });
+    } catch (error) {
+      COMPONENT_WILL_CREATE({ topic: null });
+    }
   }
 
   handleToggleReplyForm = ({ currentTarget }) => {
@@ -47,49 +51,49 @@ export default class extends Controller {
     if (!this.checkLogin()) {
       return;
     }
-    let { REPLY_TO_TOPIC } = this.store.actions
-    let state = this.store.getState()
+    let { REPLY_TO_TOPIC } = this.store.actions;
+    let state = this.store.getState();
     let params = {
       content: state.replyOfTopic
-    }
+    };
 
-    this.showLoading('回复中……')
+    this.showLoading("回复中……");
 
     try {
-      let data = await this.postReply(params)
-      let { reply_id: replyId, content } = data
-      REPLY_TO_TOPIC({ replyId, content })
-    } catch(error) {
-      this.showAlert(error.message)
+      let data = await this.postReply(params);
+      let { reply_id: replyId, content } = data;
+      REPLY_TO_TOPIC({ replyId, content });
+    } catch (error) {
+      this.showAlert(error.message);
     }
 
-    this.hideLoading()
-  }
+    this.hideLoading();
+  };
 
   handleReplyOther = async ({ currentTarget }) => {
     if (!this.checkLogin()) {
       return;
     }
-    let { REPLY_TO_OTHER } = this.store.actions
-    let state = this.store.getState()
-    let replyId = currentTarget.getAttribute('data-id')
+    let { REPLY_TO_OTHER } = this.store.actions;
+    let state = this.store.getState();
+    let replyId = currentTarget.getAttribute("data-id");
     let params = {
       replyId: replyId,
       content: state.replyOfOthers[replyId]
-    }
+    };
 
-    this.showLoading('回复中……')
+    this.showLoading("回复中……");
 
     try {
-      let data = await this.postReply(params)
-      let { reply_id: newReplyId, content } = data
-      REPLY_TO_OTHER({ replyId, newReplyId, content })
-    } catch(error) {
-      this.showAlert(error.message)
+      let data = await this.postReply(params);
+      let { reply_id: newReplyId, content } = data;
+      REPLY_TO_OTHER({ replyId, newReplyId, content });
+    } catch (error) {
+      this.showAlert(error.message);
     }
-    
-    this.hideLoading()
-  }
+
+    this.hideLoading();
+  };
 
   checkLogin() {
     if (!this.isLogin()) {
@@ -102,29 +106,29 @@ export default class extends Controller {
   likeReply(replyId) {
     let url = `/reply/${replyId}/ups`;
     let accesstoken = this.cookie("accesstoken");
-    return this.post(url, { accesstoken })
+    return this.post(url, { accesstoken });
   }
 
   async postReply({ content, replyId }) {
     if (!content || content.length <= 10) {
-      throw new Error('评论内容不能少于10个字')
+      throw new Error("评论内容不能少于10个字");
     }
 
-    content = _.linkUsers(content) + replySuffix
+    content = _.linkUsers(content) + replySuffix;
 
-    let topicId = this.location.params.topicId
-    let url = `/topic/${topicId}/replies`
-    let accesstoken = this.cookie("accesstoken")
-    let params = { accesstoken, content }
+    let topicId = this.location.params.topicId;
+    let url = `/topic/${topicId}/replies`;
+    let accesstoken = this.cookie("accesstoken");
+    let params = { accesstoken, content };
 
     if (replyId) {
-      params['reply_id'] = replyId
+      params["reply_id"] = replyId;
     }
-    let data = await this.post(url, params)
+    let data = await this.post(url, params);
 
     return {
       ...data,
-      content,
-    }
+      content
+    };
   }
 }

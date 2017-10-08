@@ -13,6 +13,7 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
  */
 
 var initialState = exports.initialState = {
+  pageTitle: '首页',
   // 主题列表
   topics: [],
   // 请求参数
@@ -22,6 +23,35 @@ var initialState = exports.initialState = {
     tab: "all",
     mdrender: true
   }
+};
+
+/**
+ * 在 View 创建前将首屏数据合并到 state 里
+ */
+var COMPONENT_WILL_CREATE = exports.COMPONENT_WILL_CREATE = function COMPONENT_WILL_CREATE(state, data) {
+  return ADD_TOPICS(state, data);
+};
+
+/**
+ * 
+ * 滚动到底部时，加载新的数据并更新查询参数
+ */
+var SCROLL_TO_BOTTOM = exports.SCROLL_TO_BOTTOM = function SCROLL_TO_BOTTOM(state, _ref) {
+  var data = _ref.data,
+      searchParams = _ref.searchParams;
+
+  state = ADD_TOPICS(state, data);
+  state = UPDATE_SEARCH_PARAMS(state, searchParams);
+  return state;
+};
+
+/**
+ * 更新查询参数
+ */
+var UPDATE_SEARCH_PARAMS = exports.UPDATE_SEARCH_PARAMS = function UPDATE_SEARCH_PARAMS(state, searchParams) {
+  return _extends({}, state, {
+    searchParams: searchParams
+  });
 };
 
 // 添加主题列表
@@ -37,15 +67,4 @@ var ADD_TOPICS = function ADD_TOPICS(state, data) {
     topics: state.topics.concat(topics)
   });
 };
-
-// 添加主题列表，并更新请求参数
 exports.ADD_TOPICS = ADD_TOPICS;
-var ADD_TOPICS_AND_UPDATE_PARAMS = exports.ADD_TOPICS_AND_UPDATE_PARAMS = function ADD_TOPICS_AND_UPDATE_PARAMS(state, _ref) {
-  var data = _ref.data,
-      searchParams = _ref.searchParams;
-
-  state = ADD_TOPICS(state, data);
-  return _extends({}, state, {
-    searchParams: searchParams
-  });
-};

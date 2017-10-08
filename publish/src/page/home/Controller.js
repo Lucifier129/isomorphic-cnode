@@ -54,14 +54,15 @@ var _class = function (_Controller) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = _class.__proto__ || Object.getPrototypeOf(_class)).call.apply(_ref, [this].concat(args))), _this), _this.KeepAlive = true, _this.View = _View2.default, _this.Model = Model, _this.isFetching = false, _this.handleScroll = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-      var ADD_TOPICS_AND_UPDATE_PARAMS, state, scrollHeight, pageHeight, searchParams, _ref3, data;
+      var SCROLL_TO_BOTTOM, state, scrollHeight, pageHeight, searchParams, _ref3, data;
 
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              ADD_TOPICS_AND_UPDATE_PARAMS = _this.store.actions.ADD_TOPICS_AND_UPDATE_PARAMS;
+              SCROLL_TO_BOTTOM = _this.store.actions.SCROLL_TO_BOTTOM;
               state = _this.store.getState();
+
               // 如果正在请求，或者呼出了菜单栏，则不去获取新数据
 
               if (!(_this.isFetching || state.showMenu)) {
@@ -74,24 +75,25 @@ var _class = function (_Controller) {
             case 4:
               scrollHeight = window.innerHeight + window.scrollY;
               pageHeight = document.body.scrollHeight || document.documentElement.scrollHeight;
-              searchParams = _extends({}, state.searchParams, {
-                page: state.searchParams.page + 1
-              });
 
-              if (!(pageHeight - scrollHeight <= 200)) {
+              if (!(pageHeight - scrollHeight <= 400)) {
                 _context.next = 15;
                 break;
               }
 
+              searchParams = _extends({}, state.searchParams, {
+                page: state.searchParams.page + 1
+              });
+
               _this.isFetching = true;
               _context.next = 11;
-              return _this.get("topics", searchParams);
+              return _this.get("/topics", searchParams);
 
             case 11:
               _ref3 = _context.sent;
               data = _ref3.data;
 
-              ADD_TOPICS_AND_UPDATE_PARAMS({
+              SCROLL_TO_BOTTOM({
                 data: data,
                 searchParams: searchParams
               });
@@ -158,23 +160,23 @@ var _class = function (_Controller) {
     key: "componentWillCreate",
     value: function () {
       var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-        var ADD_TOPICS, state, searchParams, _ref6, data;
+        var COMPONENT_WILL_CREATE, state, searchParams, _ref6, data;
 
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                ADD_TOPICS = this.store.actions.ADD_TOPICS;
+                COMPONENT_WILL_CREATE = this.store.actions.COMPONENT_WILL_CREATE;
                 state = this.store.getState();
                 searchParams = state.searchParams;
                 _context3.next = 5;
-                return this.get("topics", searchParams);
+                return this.get("/topics", searchParams);
 
               case 5:
                 _ref6 = _context3.sent;
                 data = _ref6.data;
 
-                ADD_TOPICS(data);
+                COMPONENT_WILL_CREATE(data);
 
               case 8:
               case "end":

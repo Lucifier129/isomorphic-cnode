@@ -34,7 +34,7 @@ function View(_ref) {
 
   return _react2.default.createElement(
     _Layout2.default,
-    { state: state, handlers: handlers },
+    null,
     _react2.default.createElement(
       "section",
       { id: "page" },

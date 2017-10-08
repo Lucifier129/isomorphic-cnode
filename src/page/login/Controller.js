@@ -5,9 +5,23 @@ import Controller from "../../shared/BaseController";
 
 export default class extends Controller {
   View = View;
-  
+
   initialState = {
-    token: ''
+    token: ""
+  };
+
+  shouldComponentCreate() {
+    let { context, location } = this;
+    // 如果已经登陆，重定向离开
+    if (this.isLogin()) {
+      let { userInfo } = context;
+      let targetPath = location.query.redirect;
+      if (!targetPath) {
+        targetPath = `${context.basename}/user/${userInfo.loginname}`;
+      }
+      this.redirect(targetPath);
+      return false;
+    }
   }
 
   handleLogin = async () => {
@@ -28,13 +42,8 @@ export default class extends Controller {
         throw new Error("登陆失败，请重试");
       }
 
-      let targetPath = location.query.redirect;
-      if (!targetPath) {
-        targetPath = `${context.basename}/user/${userInfo.loginname}`;
-      }
-      
       this.cookie("accesstoken", token);
-      window.location.replace(targetPath);
+      window.location.reload();
     } catch (error) {
       this.showAlert(error.message);
     }
@@ -42,7 +51,6 @@ export default class extends Controller {
     this.hideLoading();
   };
 }
-
 
 function View({ state, handlers }) {
   let { alertText, loadingText } = state;

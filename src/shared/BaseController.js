@@ -10,7 +10,7 @@ export default class extends Controller {
   };
 
   async getInitialState(initialState) {
-    let userInfo = await this.getUserInfo()
+    let userInfo = await this.getUserInfo();
     let isLogin = this.isLogin();
     let showAddButton = isLogin;
 
@@ -19,7 +19,7 @@ export default class extends Controller {
       showAddButton,
       userInfo,
       isLogin,
-      ...initialState,
+      ...initialState
     };
   }
 
@@ -47,21 +47,21 @@ export default class extends Controller {
   async shouldComponentCreate() {
     // 如果需要登录却没登录，去登录页
     if (this.NeedLogin && !this.isLogin()) {
-      this.redirect("/login");
+      this.redirect(`/login?redirect=${this.location.raw}`);
       return false;
     }
   }
 
   pageWillLeave() {
-    this.showLoading('加载中……')
+    this.showLoading("加载中……");
   }
 
   pageDidBack() {
-    this.hideLoading()
+    this.hideLoading();
   }
 
   async getUserInfo() {
-    let { context } = this
+    let { context } = this;
     // 获取登录用户信息，将用户信息缓存在 context 里，所有页面都可以共享访问
     let userInfo = null;
 
@@ -69,7 +69,7 @@ export default class extends Controller {
       if (context.hasOwnProperty("userInfo")) {
         userInfo = context.userInfo;
       } else {
-        let accesstoken = this.cookie("accesstoken")
+        let accesstoken = this.cookie("accesstoken");
         userInfo = await this.fetchUserInfo(accesstoken);
         context.userInfo = userInfo;
       }
@@ -77,7 +77,7 @@ export default class extends Controller {
       context.userInfo = null;
     }
 
-    return userInfo
+    return userInfo;
   }
 
   async fetchUserInfo(accesstoken) {
@@ -86,7 +86,7 @@ export default class extends Controller {
     }
 
     let data = await this.post("/accesstoken", { accesstoken });
-    let { success, error_msg, ...userInfo } = data
+    let { success, error_msg, ...userInfo } = data;
     return userInfo;
   }
 
@@ -96,43 +96,42 @@ export default class extends Controller {
   }
 
   // 封装 get 方法，处理 cnode 跨域要求
-  get(api, params, options={}) {
+  get(api, params, options = {}) {
     options = {
       ...options,
       credentials: "omit",
       headers: {
         ...options.headers,
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    }
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    };
     return super.get(api, params, options);
   }
 
   // 封装 post 方法，处理 cnode 跨域要求
-  post(api, params, options={}) {
+  post(api, params, options = {}) {
     options = {
       ...options,
       credentials: "omit",
-      method: 'POST',
+      method: "POST",
       headers: {
         ...options.headers,
-        'Content-Type': 'application/x-www-form-urlencoded',
+        "Content-Type": "application/x-www-form-urlencoded"
       },
-      body: querystring.stringify(params),
-    }
+      body: querystring.stringify(params)
+    };
     return this.fetch(api, options);
   }
 
   // 统一抛错, get/post 方法底层调用的是 fetch 方法
   async fetch(url, options) {
-    let data = await super.fetch(url, options)
+    let data = await super.fetch(url, options);
     let { success, error_msg, ...userInfo } = data;
-    
+
     if (!success) {
       throw new Error(error_msg);
     }
-
-    return data
+    return data;
   }
 
   // 隐藏提示信息
@@ -148,26 +147,26 @@ export default class extends Controller {
     setTimeout(this.hideAlert, 1000);
   };
 
-  showLoading = (content) => {
-    let { UPDATE_LOADING_TEXT } = this.store.actions
-    UPDATE_LOADING_TEXT(content)
-  }
+  showLoading = content => {
+    let { UPDATE_LOADING_TEXT } = this.store.actions;
+    UPDATE_LOADING_TEXT(content);
+  };
 
   hideLoading = () => {
-    let { UPDATE_LOADING_TEXT } = this.store.actions
-    UPDATE_LOADING_TEXT('')
-  }
+    let { UPDATE_LOADING_TEXT } = this.store.actions;
+    UPDATE_LOADING_TEXT("");
+  };
 
   // 打开菜单
   handleOpenMenu = () => {
     let { OPEN_MENU } = this.store.actions;
-    OPEN_MENU()
+    OPEN_MENU();
   };
 
   // 关闭菜单
   handleCloseMenu = () => {
     let { CLOSE_MENU } = this.store.actions;
-    CLOSE_MENU()
+    CLOSE_MENU();
   };
 
   // 退出登陆
