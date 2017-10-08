@@ -33,7 +33,6 @@ export default class extends Controller {
       return;
     }
     let { LIKE_REPLY } = this.store.actions;
-    let { topic } = this.store.getState();
     let replyId = currentTarget.getAttribute("data-id");
 
     try {
