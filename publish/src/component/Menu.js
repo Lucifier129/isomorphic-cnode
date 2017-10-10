@@ -49,47 +49,55 @@ function Menu(props) {
 
   return _react2.default.createElement(
     "section",
-    {
-      id: "sideBar",
-      className: className,
-      onClick: props.onClose
-    },
+    { id: "sideBar", className: className, onClick: props.onClose },
     _react2.default.createElement(_UserInfo2.default, null),
     _react2.default.createElement(
       "ul",
       { className: "list-ul" },
       _react2.default.createElement(
-        LinkWithCheck,
-        { className: "icon-quanbu iconfont", to: "/list?tab=all" },
+        MenuItemWithCheck,
+        {
+          className: "icon-quanbu iconfont",
+          to: "/list?tab=all"
+        },
         "\u5168\u90E8"
       ),
       _react2.default.createElement(
-        LinkWithCheck,
+        MenuItemWithCheck,
         { className: "icon-hao iconfont", to: "/list?tab=good" },
         "\u7CBE\u534E"
       ),
       _react2.default.createElement(
-        LinkWithCheck,
-        { className: "icon-fenxiang iconfont", to: "/list?tab=share" },
+        MenuItemWithCheck,
+        {
+          className: "icon-fenxiang iconfont",
+          to: "/list?tab=share"
+        },
         "\u5206\u4EAB"
       ),
       _react2.default.createElement(
-        LinkWithCheck,
+        MenuItemWithCheck,
         { className: "icon-wenda iconfont", to: "/list?tab=ask" },
         "\u95EE\u7B54"
       ),
       _react2.default.createElement(
-        LinkWithCheck,
-        { className: "icon-zhaopin iconfont", to: "/list?tab=job" },
+        MenuItemWithCheck,
+        {
+          className: "icon-zhaopin iconfont",
+          to: "/list?tab=job"
+        },
         "\u62DB\u8058"
       ),
       _react2.default.createElement(
-        LinkWithCheck,
-        { className: "icon-xiaoxi iconfont line", to: "/message" },
+        MenuItemWithCheck,
+        {
+          className: "icon-xiaoxi iconfont line",
+          to: "/message"
+        },
         "\u6D88\u606F"
       ),
       _react2.default.createElement(
-        LinkWithCheck,
+        MenuItemWithCheck,
         { className: "icon-about iconfont", to: "/about" },
         "\u5173\u4E8E"
       )
@@ -105,7 +113,9 @@ var withCurrentPath = (0, _connect2.default)(function (_ref2) {
   };
 });
 
-var LinkWithCheck = withCurrentPath(function (props) {
+var MenuItemWithCheck = withCurrentPath(MenuItem);
+
+function MenuItem(props) {
   if (props.to === props.current) {
     var to = props.to,
         _current = props.current,
@@ -118,4 +128,4 @@ var LinkWithCheck = withCurrentPath(function (props) {
       rest = _objectWithoutProperties(props, ["current"]);
 
   return _react2.default.createElement(_component.Link, _extends({ as: "li" }, rest));
-});
+}
