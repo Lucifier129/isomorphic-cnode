@@ -55,7 +55,7 @@ var _class = function (_Controller) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = _class.__proto__ || Object.getPrototypeOf(_class)).call.apply(_ref, [this].concat(args))), _this), _this.preload = {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = _class.__proto__ || Object.getPrototypeOf(_class)).call.apply(_ref, [this].concat(args))), _this), _this.SSR = true, _this.preload = {
       main: "/css/main.css"
     }, _this.NeedLogin = false, _this.hideAlert = function () {
       var UPDATE_ALERT_TEXT = _this.store.actions.UPDATE_ALERT_TEXT;
