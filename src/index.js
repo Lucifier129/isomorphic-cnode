@@ -19,18 +19,18 @@ export default [
 	},
 	{
 		path: '/add',
-		controller: require('./page/add/controller'),
+		controller: require('./page/add/Controller'),
 	},
 	{
 		path: '/message',
-		controller: require('./page/message/controller'),
+		controller: require('./page/message/Controller'),
 	},
 	{
 		path: '/about',
-		controller: require('./page/about/controller'),
+		controller: require('./page/about/Controller'),
 	},
 	{
 		path: '*',
-		controller: require('./page/home/controller'),
+		controller: require('./page/home/Controller'),
 	}
 ]

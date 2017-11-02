@@ -5,6 +5,7 @@ import sharedInitialState from "./sharedInitialState";
 import * as sharedActions from "./sharedActions";
 
 export default class extends Controller {
+  SSR = true
   preload = {
     main: "/css/main.css"
   };
