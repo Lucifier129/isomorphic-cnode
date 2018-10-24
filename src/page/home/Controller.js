@@ -2,6 +2,7 @@ import Controller from "../../shared/BaseController";
 import * as _ from "../../shared/util";
 import * as Model from "./Model";
 import View from "./View";
+import util from 'react-imvc/util'
 
 export default class extends Controller {
   KeepAlive = true;
@@ -37,6 +38,10 @@ export default class extends Controller {
 
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll);
+    // prefetch all js bundles
+    // util.getFlatList(this.routes)
+    //   .map(item => item.controller)
+    //   .forEach(this.loader)
   }
 
   componentWillUnmount() {

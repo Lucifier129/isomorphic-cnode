@@ -1,11 +1,11 @@
 {
-  "index": "index-9a6640.js",
-  "page\\home/home": "page\\home/home-014096.js",
-  "page\\detail/detail": "page\\detail/detail-8f4772.js",
-  "page\\login/login": "page\\login/login-3ce5d6.js",
-  "page\\user/user": "page\\user/user-7f5ee6.js",
-  "page\\add/add": "page\\add/add-695107.js",
-  "page\\message/message": "page\\message/message-0cf7a4.js",
-  "page\\about/about": "page\\about/about-312a01.js",
-  "vendor": "vendor-9a6640.js"
+  "index": "index-f25ff7.js",
+  "page/home/home": "page/home/home-df5eab.js",
+  "page/detail/detail": "page/detail/detail-7db6c7.js",
+  "page/login/login": "page/login/login-da6b2a.js",
+  "page/user/user": "page/user/user-8c8995.js",
+  "page/add/add": "page/add/add-3977a0.js",
+  "page/message/message": "page/message/message-a3d62a.js",
+  "page/about/about": "page/about/about-86b6c2.js",
+  "vendor": "vendor-f25ff7.js"
 }

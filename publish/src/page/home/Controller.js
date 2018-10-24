@@ -26,6 +26,10 @@ var _View = require("./View");
 
 var _View2 = _interopRequireDefault(_View);
 
+var _util2 = require("react-imvc/util");
+
+var _util3 = _interopRequireDefault(_util2);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -196,6 +200,10 @@ var _class = function (_Controller) {
     key: "componentDidMount",
     value: function componentDidMount() {
       window.addEventListener("scroll", this.handleScroll);
+      // prefetch all js bundles
+      // util.getFlatList(this.routes)
+      //   .map(item => item.controller)
+      //   .forEach(this.loader)
     }
   }, {
     key: "componentWillUnmount",

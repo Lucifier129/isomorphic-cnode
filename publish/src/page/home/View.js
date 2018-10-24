@@ -65,7 +65,7 @@ function Topic(props) {
 
   return _react2.default.createElement(
     _component.Link,
-    { as: "li", to: "/topic/" + id },
+    { as: "li", prefetch: true, to: "/topic/" + id },
     _react2.default.createElement(
       "h3",
       {

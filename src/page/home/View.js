@@ -4,6 +4,7 @@ import { purify } from "../../shared/hoc";
 import Layout from "../../component/Layout";
 import * as _ from "../../shared/util";
 
+
 export default function View({ state, handlers }) {
   return (
     <Layout>
@@ -32,7 +33,7 @@ function Topic(props) {
     visit_count
   } = props;
   return (
-    <Link as="li" to={`/topic/${id}`}>
+    <Link as="li" prefetch to={`/topic/${id}`}>
       <h3
         className={_.getTabClassName(tab, good, top)}
         title={_.getTabStr(tab, good, top)}

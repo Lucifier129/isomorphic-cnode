@@ -14,6 +14,7 @@ exports.default = {
     restapi: 'https://cnodejs.org/api/v1',
     favicon: _path2.default.join(__dirname, 'favicon.ico'),
     staticEntry: 'index.html',
+    codeSpliting: true,
     alias: process.env.NODE_ENV === 'production' ? {
         'react': 'react-lite',
         'react-dom': 'react-lite'
