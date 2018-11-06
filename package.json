@@ -20,7 +20,8 @@
   "homepage": "https://github.com/Lucifier129/isomorphic-cnode#readme",
   "dependencies": {
     "markdown": "^0.5.0",
-    "react-imvc": "^1.6.0",
-    "react-lite": "^0.15.38"
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
+    "react-imvc": "^2.0.0"
   }
 }

@@ -3,34 +3,34 @@
 export default [
 	{
 		path: '/(index|home|list)?',
-		controller: require('./page/home/Controller'),
+		controller: () => import('./page/home/Controller'),
 	},
 	{
 		path: '/topic/:topicId',
-		controller: require('./page/detail/Controller'),
+		controller: () => import('./page/detail/Controller'),
 	},
 	{
 		path: '/login',
-		controller: require('./page/login/Controller'),
+		controller: () => import('./page/login/Controller'),
 	},
 	{
 		path: '/user/:loginname',
-		controller: require('./page/user/Controller'),
+		controller: () => import('./page/user/Controller'),
 	},
 	{
 		path: '/add',
-		controller: require('./page/add/Controller'),
+		controller: () => import('./page/add/Controller'),
 	},
 	{
 		path: '/message',
-		controller: require('./page/message/Controller'),
+		controller: () => import('./page/message/Controller'),
 	},
 	{
 		path: '/about',
-		controller: require('./page/about/Controller'),
+		controller: () => import('./page/about/Controller'),
 	},
 	{
 		path: '*',
-		controller: require('./page/home/Controller'),
+		controller: () => import('./page/home/Controller'),
 	}
 ]

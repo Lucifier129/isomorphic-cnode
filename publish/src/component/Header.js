@@ -3,31 +3,25 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _react = require("react");
+var _react = _interopRequireWildcard(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
-
-var _classnames = require("classnames");
-
-var _classnames2 = _interopRequireDefault(_classnames);
+var _classnames = _interopRequireDefault(require("classnames"));
 
 var _component = require("react-imvc/component");
 
-var _connect = require("react-imvc/hoc/connect");
+var _connect = _interopRequireDefault(require("react-imvc/hoc/connect"));
 
-var _connect2 = _interopRequireDefault(_connect);
-
-var _Menu = require("./Menu");
-
-var _Menu2 = _interopRequireDefault(_Menu);
+var _Menu = _interopRequireDefault(require("./Menu"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var withData = (0, _connect2.default)(function (_ref) {
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var withData = (0, _connect.default)(function (_ref) {
   var state = _ref.state,
       handlers = _ref.handlers;
-
   return {
     fixedHeader: state.fixedHeader,
     showMenu: state.showMenu,
@@ -39,8 +33,9 @@ var withData = (0, _connect2.default)(function (_ref) {
   };
 });
 
-exports.default = withData(Header);
+var _default = withData(Header);
 
+exports.default = _default;
 
 function Header(props) {
   var showMenu = props.showMenu,
@@ -50,48 +45,48 @@ function Header(props) {
       pageTitle = props.pageTitle,
       onCloseMenu = props.onCloseMenu,
       onOpenMenu = props.onOpenMenu;
-
-  var headClassName = (0, _classnames2.default)({
+  var headClassName = (0, _classnames.default)({
     show: showMenu && fixedHeader,
     "fix-header": fixedHeader,
     "no-fix": !fixedHeader
   });
-
-  return _react2.default.createElement(
-    "div",
-    null,
-    _react2.default.createElement(PageCover, { "if": showMenu && fixedHeader, onClick: onCloseMenu }),
-    _react2.default.createElement(
-      "header",
-      { id: "hd", className: headClassName },
-      _react2.default.createElement(
-        "div",
-        { className: "nv-toolbar" },
-        _react2.default.createElement(Toolbar, { "if": fixedHeader, onClick: onOpenMenu }),
-        _react2.default.createElement(
-          "span",
-          null,
-          pageTitle
-        ),
-        _react2.default.createElement(Message, { messageCount: messageCount, showAddButton: showAddButton })
-      )
-    ),
-    _react2.default.createElement(_Menu2.default, null)
-  );
+  return _react.default.createElement("div", null, _react.default.createElement(PageCover, {
+    if: showMenu && fixedHeader,
+    onClick: onCloseMenu
+  }), _react.default.createElement("header", {
+    id: "hd",
+    className: headClassName
+  }, _react.default.createElement("div", {
+    className: "nv-toolbar"
+  }, _react.default.createElement(Toolbar, {
+    if: fixedHeader,
+    onClick: onOpenMenu
+  }), _react.default.createElement("span", null, pageTitle), _react.default.createElement(Message, {
+    messageCount: messageCount,
+    showAddButton: showAddButton
+  }))), _react.default.createElement(_Menu.default, null));
 }
 
 function PageCover(props) {
   if (!props.if) {
     return null;
   }
-  return _react2.default.createElement("div", { className: "page-cover", onClick: props.onClick });
+
+  return _react.default.createElement("div", {
+    className: "page-cover",
+    onClick: props.onClick
+  });
 }
 
 function Toolbar(props) {
   if (!props.if) {
     return null;
   }
-  return _react2.default.createElement("div", { className: "toolbar-nav", onClick: props.onClick });
+
+  return _react.default.createElement("div", {
+    className: "toolbar-nav",
+    onClick: props.onClick
+  });
 }
 
 function Message(_ref2) {
@@ -99,18 +94,17 @@ function Message(_ref2) {
       showAddButton = _ref2.showAddButton;
 
   if (messageCount > 0) {
-    return _react2.default.createElement(
-      "i",
-      { className: "num" },
-      messageCount
-    );
+    return _react.default.createElement("i", {
+      className: "num"
+    }, messageCount);
   }
+
   if (showAddButton) {
-    return _react2.default.createElement(
-      _component.Link,
-      { as: "i", className: "iconfont add-icon", to: "/add" },
-      "\uE60F"
-    );
+    return _react.default.createElement(_component.Link, {
+      as: "i",
+      className: "iconfont add-icon",
+      to: "/add"
+    }, "\uE60F");
   }
 
   return null;

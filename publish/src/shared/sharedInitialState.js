@@ -3,11 +3,12 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
+
 /**
  * shared initial state
  */
-
-exports.default = {
+var _default = {
   // html config
   html: {
     title: "isomorphic-cnode",
@@ -31,3 +32,4 @@ exports.default = {
   // laoding 话术
   loadingText: ""
 };
+exports.default = _default;

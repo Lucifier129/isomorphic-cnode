@@ -3,95 +3,126 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _controller = _interopRequireDefault(require("react-imvc/controller"));
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _querystring = _interopRequireDefault(require("querystring"));
 
-var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+var _sharedInitialState = _interopRequireDefault(require("./sharedInitialState"));
 
-var _controller = require("react-imvc/controller");
+var sharedActions = _interopRequireWildcard(require("./sharedActions"));
 
-var _controller2 = _interopRequireDefault(_controller);
-
-var _querystring = require("querystring");
-
-var _querystring2 = _interopRequireDefault(_querystring);
-
-var _sharedInitialState = require("./sharedInitialState");
-
-var _sharedInitialState2 = _interopRequireDefault(_sharedInitialState);
-
-var _sharedActions = require("./sharedActions");
-
-var sharedActions = _interopRequireWildcard(_sharedActions);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // base controller class
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-var _class = function (_Controller) {
-  _inherits(_class, _Controller);
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
 
-  function _class() {
-    var _ref;
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 
-    var _temp, _this, _ret;
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-    _classCallCheck(this, _class);
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var _default =
+/*#__PURE__*/
+function (_Controller) {
+  _inherits(_default, _Controller);
+
+  function _default() {
+    var _getPrototypeOf2;
+
+    var _this;
+
+    _classCallCheck(this, _default);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = _class.__proto__ || Object.getPrototypeOf(_class)).call.apply(_ref, [this].concat(args))), _this), _this.SSR = true, _this.preload = {
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(_default)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "SSR", true);
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "preload", {
       main: "/css/main.css"
-    }, _this.NeedLogin = false, _this.hideAlert = function () {
-      var UPDATE_ALERT_TEXT = _this.store.actions.UPDATE_ALERT_TEXT;
+    });
 
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "NeedLogin", false);
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "hideAlert", function () {
+      var UPDATE_ALERT_TEXT = _this.store.actions.UPDATE_ALERT_TEXT;
       UPDATE_ALERT_TEXT("");
-    }, _this.showAlert = function (text) {
-      var UPDATE_ALERT_TEXT = _this.store.actions.UPDATE_ALERT_TEXT;
+    });
 
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "showAlert", function (text) {
+      var UPDATE_ALERT_TEXT = _this.store.actions.UPDATE_ALERT_TEXT;
       UPDATE_ALERT_TEXT(text);
       setTimeout(_this.hideAlert, 1000);
-    }, _this.showLoading = function (content) {
-      var UPDATE_LOADING_TEXT = _this.store.actions.UPDATE_LOADING_TEXT;
+    });
 
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "showLoading", function (content) {
+      var UPDATE_LOADING_TEXT = _this.store.actions.UPDATE_LOADING_TEXT;
       UPDATE_LOADING_TEXT(content);
-    }, _this.hideLoading = function () {
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "hideLoading", function () {
       var UPDATE_LOADING_TEXT = _this.store.actions.UPDATE_LOADING_TEXT;
-
       UPDATE_LOADING_TEXT("");
-    }, _this.handleOpenMenu = function () {
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleOpenMenu", function () {
       var OPEN_MENU = _this.store.actions.OPEN_MENU;
-
       OPEN_MENU();
-    }, _this.handleCloseMenu = function () {
-      var CLOSE_MENU = _this.store.actions.CLOSE_MENU;
+    });
 
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleCloseMenu", function () {
+      var CLOSE_MENU = _this.store.actions.CLOSE_MENU;
       CLOSE_MENU();
-    }, _this.handleLogout = function () {
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleLogout", function () {
       _this.removeCookie("accesstoken");
+
       window.location.reload();
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    });
+
+    return _this;
   }
 
-  _createClass(_class, [{
+  _createClass(_default, [{
     key: "getInitialState",
     value: function () {
-      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(initialState) {
+      var _getInitialState = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(initialState) {
         var userInfo, isLogin, showAddButton;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
@@ -104,7 +135,7 @@ var _class = function (_Controller) {
                 userInfo = _context.sent;
                 isLogin = this.isLogin();
                 showAddButton = isLogin;
-                return _context.abrupt("return", _extends({}, _sharedInitialState2.default, {
+                return _context.abrupt("return", _objectSpread({}, _sharedInitialState.default, {
                   showAddButton: showAddButton,
                   userInfo: userInfo,
                   isLogin: isLogin
@@ -118,13 +149,10 @@ var _class = function (_Controller) {
         }, _callee, this);
       }));
 
-      function getInitialState(_x) {
-        return _ref2.apply(this, arguments);
-      }
-
-      return getInitialState;
+      return function getInitialState(_x) {
+        return _getInitialState.apply(this, arguments);
+      };
     }()
-
     /**
        * 动态合并共享的 actions
        */
@@ -132,9 +160,8 @@ var _class = function (_Controller) {
   }, {
     key: "getFinalActions",
     value: function getFinalActions(actions) {
-      return _extends({}, actions, sharedActions);
+      return _objectSpread({}, actions, sharedActions);
     }
-
     /**
      * 数据重用后，将服务端的 userInfo 存入 context 里给其他页面使用
      */
@@ -145,14 +172,14 @@ var _class = function (_Controller) {
       if (state.userInfo) {
         this.context.userInfo = state.userInfo;
       }
-    }
-
-    // 拓展字段：是否需要登录才可以访问
+    } // 拓展字段：是否需要登录才可以访问
 
   }, {
     key: "shouldComponentCreate",
     value: function () {
-      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      var _shouldComponentCreate = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -162,7 +189,7 @@ var _class = function (_Controller) {
                   break;
                 }
 
-                this.redirect("/login?redirect=" + this.location.raw);
+                this.redirect("/login?redirect=".concat(this.location.raw));
                 return _context2.abrupt("return", false);
 
               case 3:
@@ -173,11 +200,9 @@ var _class = function (_Controller) {
         }, _callee2, this);
       }));
 
-      function shouldComponentCreate() {
-        return _ref3.apply(this, arguments);
-      }
-
-      return shouldComponentCreate;
+      return function shouldComponentCreate() {
+        return _shouldComponentCreate.apply(this, arguments);
+      };
     }()
   }, {
     key: "pageWillLeave",
@@ -192,14 +217,15 @@ var _class = function (_Controller) {
   }, {
     key: "getUserInfo",
     value: function () {
-      var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+      var _getUserInfo = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3() {
         var context, userInfo, accesstoken;
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                context = this.context;
-                // 获取登录用户信息，将用户信息缓存在 context 里，所有页面都可以共享访问
+                context = this.context; // 获取登录用户信息，将用户信息缓存在 context 里，所有页面都可以共享访问
 
                 userInfo = null;
                 _context3.prev = 2;
@@ -220,7 +246,6 @@ var _class = function (_Controller) {
 
               case 10:
                 userInfo = _context3.sent;
-
                 context.userInfo = userInfo;
 
               case 12:
@@ -230,7 +255,6 @@ var _class = function (_Controller) {
               case 14:
                 _context3.prev = 14;
                 _context3.t0 = _context3["catch"](2);
-
                 context.userInfo = null;
 
               case 17:
@@ -244,16 +268,16 @@ var _class = function (_Controller) {
         }, _callee3, this, [[2, 14]]);
       }));
 
-      function getUserInfo() {
-        return _ref4.apply(this, arguments);
-      }
-
-      return getUserInfo;
+      return function getUserInfo() {
+        return _getUserInfo.apply(this, arguments);
+      };
     }()
   }, {
     key: "fetchUserInfo",
     value: function () {
-      var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(accesstoken) {
+      var _fetchUserInfo = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee4(accesstoken) {
         var data, success, error_msg, userInfo;
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
@@ -268,7 +292,9 @@ var _class = function (_Controller) {
 
               case 2:
                 _context4.next = 4;
-                return this.post("/accesstoken", { accesstoken: accesstoken });
+                return this.post("/accesstoken", {
+                  accesstoken: accesstoken
+                });
 
               case 4:
                 data = _context4.sent;
@@ -283,68 +309,58 @@ var _class = function (_Controller) {
         }, _callee4, this);
       }));
 
-      function fetchUserInfo(_x2) {
-        return _ref5.apply(this, arguments);
-      }
-
-      return fetchUserInfo;
-    }()
-
-    // 判断是否登录
+      return function fetchUserInfo(_x2) {
+        return _fetchUserInfo.apply(this, arguments);
+      };
+    }() // 判断是否登录
 
   }, {
     key: "isLogin",
     value: function isLogin() {
       return !!this.context.userInfo;
-    }
-
-    // 封装 get 方法，处理 cnode 跨域要求
+    } // 封装 get 方法，处理 cnode 跨域要求
 
   }, {
     key: "get",
     value: function get(api, params) {
       var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-
-      options = _extends({}, options, {
+      options = _objectSpread({}, options, {
         credentials: "omit",
-        headers: _extends({}, options.headers, {
+        headers: _objectSpread({}, options.headers, {
           "Content-Type": "application/x-www-form-urlencoded"
         })
       });
-      return _get(_class.prototype.__proto__ || Object.getPrototypeOf(_class.prototype), "get", this).call(this, api, params, options);
-    }
-
-    // 封装 post 方法，处理 cnode 跨域要求
+      return _get(_getPrototypeOf(_default.prototype), "get", this).call(this, api, params, options);
+    } // 封装 post 方法，处理 cnode 跨域要求
 
   }, {
     key: "post",
     value: function post(api, params) {
       var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-
-      options = _extends({}, options, {
+      options = _objectSpread({}, options, {
         credentials: "omit",
         method: "POST",
-        headers: _extends({}, options.headers, {
+        headers: _objectSpread({}, options.headers, {
           "Content-Type": "application/x-www-form-urlencoded"
         }),
-        body: _querystring2.default.stringify(params)
+        body: _querystring.default.stringify(params)
       });
       return this.fetch(api, options);
-    }
-
-    // 统一抛错, get/post 方法底层调用的是 fetch 方法
+    } // 统一抛错, get/post 方法底层调用的是 fetch 方法
 
   }, {
     key: "fetch",
     value: function () {
-      var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(url, options) {
+      var _fetch = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee5(url, options) {
         var data, success, error_msg, userInfo;
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
                 _context5.next = 2;
-                return _get(_class.prototype.__proto__ || Object.getPrototypeOf(_class.prototype), "fetch", this).call(this, url, options);
+                return _get(_getPrototypeOf(_default.prototype), "fetch", this).call(this, url, options);
 
               case 2:
                 data = _context5.sent;
@@ -368,30 +384,14 @@ var _class = function (_Controller) {
         }, _callee5, this);
       }));
 
-      function fetch(_x5, _x6) {
-        return _ref6.apply(this, arguments);
-      }
-
-      return fetch;
-    }()
-
-    // 隐藏提示信息
-
-
-    // 显示提示信息
-
-
-    // 打开菜单
-
-
-    // 关闭菜单
-
-
-    // 退出登陆
+      return function fetch(_x3, _x4) {
+        return _fetch.apply(this, arguments);
+      };
+    }() // 隐藏提示信息
 
   }]);
 
-  return _class;
-}(_controller2.default);
+  return _default;
+}(_controller.default);
 
-exports.default = _class;
+exports.default = _default;

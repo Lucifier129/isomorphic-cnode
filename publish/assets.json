@@ -1,11 +1,11 @@
 {
-  "index": "index-f25ff7.js",
-  "page/home/home": "page/home/home-df5eab.js",
-  "page/detail/detail": "page/detail/detail-7db6c7.js",
-  "page/login/login": "page/login/login-da6b2a.js",
-  "page/user/user": "page/user/user-8c8995.js",
-  "page/add/add": "page/add/add-3977a0.js",
-  "page/message/message": "page/message/message-a3d62a.js",
-  "page/about/about": "page/about/about-86b6c2.js",
-  "vendor": "vendor-f25ff7.js"
+  "vendor": "js/vendor-772aa2.js",
+  "js/1-0e4ea7": "js/1-0e4ea7.js",
+  "index": "js/index-6abbff.js",
+  "js/3-991d90": "js/3-991d90.js",
+  "js/4-6592f6": "js/4-6592f6.js",
+  "js/5-a03620": "js/5-a03620.js",
+  "js/6-01df7e": "js/6-01df7e.js",
+  "js/7-3b8ead": "js/7-3b8ead.js",
+  "js/8-337c8f": "js/8-337c8f.js"
 }

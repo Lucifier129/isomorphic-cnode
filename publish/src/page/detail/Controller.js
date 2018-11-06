@@ -3,191 +3,231 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _BaseController = _interopRequireDefault(require("../../shared/BaseController"));
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _View = _interopRequireDefault(require("./View"));
 
-var _BaseController = require("../../shared/BaseController");
+var Model = _interopRequireWildcard(require("./Model"));
 
-var _BaseController2 = _interopRequireDefault(_BaseController);
-
-var _View = require("./View");
-
-var _View2 = _interopRequireDefault(_View);
-
-var _Model = require("./Model");
-
-var Model = _interopRequireWildcard(_Model);
-
-var _util = require("../../shared/util");
-
-var _ = _interopRequireWildcard(_util);
+var _ = _interopRequireWildcard(require("../../shared/util"));
 
 var _markdown = require("markdown");
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var replySuffix = "\n\u6765\u81EA [isomorphic-cnode](https://lucifier129.github.io/isomorphic-cnode/publish/static/)";
 
-var _class = function (_Controller) {
-  _inherits(_class, _Controller);
+var _default =
+/*#__PURE__*/
+function (_Controller) {
+  _inherits(_default, _Controller);
 
-  function _class() {
-    var _ref,
-        _this2 = this;
+  function _default() {
+    var _getPrototypeOf2;
 
-    var _temp, _this, _ret;
+    var _this;
 
-    _classCallCheck(this, _class);
+    _classCallCheck(this, _default);
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = _class.__proto__ || Object.getPrototypeOf(_class)).call.apply(_ref, [this].concat(args))), _this), _this.KeepAlive = true, _this.View = _View2.default, _this.Model = Model, _this.handleToggleReplyForm = function (_ref2) {
-      var currentTarget = _ref2.currentTarget;
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(_default)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "KeepAlive", true);
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "View", _View.default);
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "Model", Model);
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleToggleReplyForm", function (_ref) {
+      var currentTarget = _ref.currentTarget;
 
       if (!_this.checkLogin()) {
         return;
       }
+
       var TOGGLE_REPLY_FORM = _this.store.actions.TOGGLE_REPLY_FORM;
-
       var activeReplyId = currentTarget.getAttribute("data-id");
-      TOGGLE_REPLY_FORM({ activeReplyId: activeReplyId });
-    }, _this.handleLikeReply = function () {
-      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_ref4) {
-        var currentTarget = _ref4.currentTarget;
+      TOGGLE_REPLY_FORM({
+        activeReplyId: activeReplyId
+      });
+    });
 
-        var LIKE_REPLY, replyId, _ref5, action;
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleLikeReply",
+    /*#__PURE__*/
+    function () {
+      var _ref3 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(_ref2) {
+        var currentTarget, LIKE_REPLY, replyId, _ref4, action;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                currentTarget = _ref2.currentTarget;
+
                 if (_this.checkLogin()) {
-                  _context.next = 2;
+                  _context.next = 3;
                   break;
                 }
 
                 return _context.abrupt("return");
 
-              case 2:
+              case 3:
                 LIKE_REPLY = _this.store.actions.LIKE_REPLY;
                 replyId = currentTarget.getAttribute("data-id");
-                _context.prev = 4;
-                _context.next = 7;
+                _context.prev = 5;
+                _context.next = 8;
                 return _this.likeReply(replyId);
 
-              case 7:
-                _ref5 = _context.sent;
-                action = _ref5.action;
-
-                LIKE_REPLY({ action: action, replyId: replyId });
-                _context.next = 15;
+              case 8:
+                _ref4 = _context.sent;
+                action = _ref4.action;
+                LIKE_REPLY({
+                  action: action,
+                  replyId: replyId
+                });
+                _context.next = 16;
                 break;
 
-              case 12:
-                _context.prev = 12;
-                _context.t0 = _context["catch"](4);
+              case 13:
+                _context.prev = 13;
+                _context.t0 = _context["catch"](5);
 
                 _this.showAlert(_context.t0.message);
 
-              case 15:
+              case 16:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, _this2, [[4, 12]]);
+        }, _callee, this, [[5, 13]]);
       }));
 
       return function (_x) {
         return _ref3.apply(this, arguments);
       };
-    }(), _this.handleReplyTopic = function () {
-      var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(_ref7) {
-        var currentTarget = _ref7.currentTarget;
-        var REPLY_TO_TOPIC, state, params, data, replyId, content;
+    }());
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleReplyTopic",
+    /*#__PURE__*/
+    function () {
+      var _ref6 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(_ref5) {
+        var currentTarget, REPLY_TO_TOPIC, state, params, data, replyId, content;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                currentTarget = _ref5.currentTarget;
+
                 if (_this.checkLogin()) {
-                  _context2.next = 2;
+                  _context2.next = 3;
                   break;
                 }
 
                 return _context2.abrupt("return");
 
-              case 2:
+              case 3:
                 REPLY_TO_TOPIC = _this.store.actions.REPLY_TO_TOPIC;
                 state = _this.store.getState();
                 params = {
                   content: state.replyOfTopic
                 };
 
-
                 _this.showLoading("回复中……");
 
-                _context2.prev = 6;
-                _context2.next = 9;
+                _context2.prev = 7;
+                _context2.next = 10;
                 return _this.postReply(params);
 
-              case 9:
+              case 10:
                 data = _context2.sent;
                 replyId = data.reply_id, content = data.content;
-
-                REPLY_TO_TOPIC({ replyId: replyId, content: content });
-                _context2.next = 17;
+                REPLY_TO_TOPIC({
+                  replyId: replyId,
+                  content: content
+                });
+                _context2.next = 18;
                 break;
 
-              case 14:
-                _context2.prev = 14;
-                _context2.t0 = _context2["catch"](6);
+              case 15:
+                _context2.prev = 15;
+                _context2.t0 = _context2["catch"](7);
 
                 _this.showAlert(_context2.t0.message);
 
-              case 17:
-
+              case 18:
                 _this.hideLoading();
 
-              case 18:
+              case 19:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, _this2, [[6, 14]]);
+        }, _callee2, this, [[7, 15]]);
       }));
 
       return function (_x2) {
         return _ref6.apply(this, arguments);
       };
-    }(), _this.handleReplyOther = function () {
-      var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(_ref9) {
-        var currentTarget = _ref9.currentTarget;
-        var REPLY_TO_OTHER, state, replyId, params, data, newReplyId, content;
+    }());
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleReplyOther",
+    /*#__PURE__*/
+    function () {
+      var _ref8 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3(_ref7) {
+        var currentTarget, REPLY_TO_OTHER, state, replyId, params, data, newReplyId, content;
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
+                currentTarget = _ref7.currentTarget;
+
                 if (_this.checkLogin()) {
-                  _context3.next = 2;
+                  _context3.next = 3;
                   break;
                 }
 
                 return _context3.abrupt("return");
 
-              case 2:
+              case 3:
                 REPLY_TO_OTHER = _this.store.actions.REPLY_TO_OTHER;
                 state = _this.store.getState();
                 replyId = currentTarget.getAttribute("data-id");
@@ -196,50 +236,55 @@ var _class = function (_Controller) {
                   content: state.replyOfOthers[replyId]
                 };
 
-
                 _this.showLoading("回复中……");
 
-                _context3.prev = 7;
-                _context3.next = 10;
+                _context3.prev = 8;
+                _context3.next = 11;
                 return _this.postReply(params);
 
-              case 10:
+              case 11:
                 data = _context3.sent;
                 newReplyId = data.reply_id, content = data.content;
-
-                REPLY_TO_OTHER({ replyId: replyId, newReplyId: newReplyId, content: content });
-                _context3.next = 18;
+                REPLY_TO_OTHER({
+                  replyId: replyId,
+                  newReplyId: newReplyId,
+                  content: content
+                });
+                _context3.next = 19;
                 break;
 
-              case 15:
-                _context3.prev = 15;
-                _context3.t0 = _context3["catch"](7);
+              case 16:
+                _context3.prev = 16;
+                _context3.t0 = _context3["catch"](8);
 
                 _this.showAlert(_context3.t0.message);
 
-              case 18:
-
+              case 19:
                 _this.hideLoading();
 
-              case 19:
+              case 20:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, _this2, [[7, 15]]);
+        }, _callee3, this, [[8, 16]]);
       }));
 
       return function (_x3) {
         return _ref8.apply(this, arguments);
       };
-    }(), _temp), _possibleConstructorReturn(_this, _ret);
+    }());
+
+    return _this;
   }
 
-  _createClass(_class, [{
+  _createClass(_default, [{
     key: "componentWillCreate",
     value: function () {
-      var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-        var COMPONENT_WILL_CREATE, state, topicId, _ref11, topic;
+      var _componentWillCreate = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee4() {
+        var COMPONENT_WILL_CREATE, state, topicId, _ref9, topic;
 
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
@@ -250,21 +295,23 @@ var _class = function (_Controller) {
                 topicId = state.location.params.topicId;
                 _context4.prev = 3;
                 _context4.next = 6;
-                return this.get("/topic/" + topicId);
+                return this.get("/topic/".concat(topicId));
 
               case 6:
-                _ref11 = _context4.sent;
-                topic = _ref11.data;
-
-                COMPONENT_WILL_CREATE({ topic: topic });
+                _ref9 = _context4.sent;
+                topic = _ref9.data;
+                COMPONENT_WILL_CREATE({
+                  topic: topic
+                });
                 _context4.next = 14;
                 break;
 
               case 11:
                 _context4.prev = 11;
                 _context4.t0 = _context4["catch"](3);
-
-                COMPONENT_WILL_CREATE({ topic: null });
+                COMPONENT_WILL_CREATE({
+                  topic: null
+                });
 
               case 14:
               case "end":
@@ -274,69 +321,73 @@ var _class = function (_Controller) {
         }, _callee4, this, [[3, 11]]);
       }));
 
-      function componentWillCreate() {
-        return _ref10.apply(this, arguments);
-      }
-
-      return componentWillCreate;
+      return function componentWillCreate() {
+        return _componentWillCreate.apply(this, arguments);
+      };
     }()
   }, {
     key: "checkLogin",
     value: function checkLogin() {
       if (!this.isLogin()) {
-        this.history.push("/login?redirect=" + this.location.raw);
+        this.history.push("/login?redirect=".concat(this.location.raw));
         return false;
       }
+
       return true;
     }
   }, {
     key: "likeReply",
     value: function likeReply(replyId) {
-      var url = "/reply/" + replyId + "/ups";
+      var url = "/reply/".concat(replyId, "/ups");
       var accesstoken = this.cookie("accesstoken");
-      return this.post(url, { accesstoken: accesstoken });
+      return this.post(url, {
+        accesstoken: accesstoken
+      });
     }
   }, {
     key: "postReply",
     value: function () {
-      var _ref12 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(_ref13) {
-        var content = _ref13.content,
-            replyId = _ref13.replyId;
-        var topicId, url, accesstoken, params, data;
+      var _postReply = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee5(_ref10) {
+        var content, replyId, topicId, url, accesstoken, params, data;
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
+                content = _ref10.content, replyId = _ref10.replyId;
+
                 if (!(!content || content.length <= 10)) {
-                  _context5.next = 2;
+                  _context5.next = 3;
                   break;
                 }
 
                 throw new Error("评论内容不能少于10个字");
 
-              case 2:
-
+              case 3:
                 content = _.linkUsers(content) + replySuffix;
-
                 topicId = this.location.params.topicId;
-                url = "/topic/" + topicId + "/replies";
+                url = "/topic/".concat(topicId, "/replies");
                 accesstoken = this.cookie("accesstoken");
-                params = { accesstoken: accesstoken, content: content };
-
+                params = {
+                  accesstoken: accesstoken,
+                  content: content
+                };
 
                 if (replyId) {
                   params["reply_id"] = replyId;
                 }
-                _context5.next = 10;
+
+                _context5.next = 11;
                 return this.post(url, params);
 
-              case 10:
+              case 11:
                 data = _context5.sent;
-                return _context5.abrupt("return", _extends({}, data, {
+                return _context5.abrupt("return", _objectSpread({}, data, {
                   content: content
                 }));
 
-              case 12:
+              case 13:
               case "end":
                 return _context5.stop();
             }
@@ -344,15 +395,13 @@ var _class = function (_Controller) {
         }, _callee5, this);
       }));
 
-      function postReply(_x4) {
-        return _ref12.apply(this, arguments);
-      }
-
-      return postReply;
+      return function postReply(_x4) {
+        return _postReply.apply(this, arguments);
+      };
     }()
   }]);
 
-  return _class;
-}(_BaseController2.default);
+  return _default;
+}(_BaseController.default);
 
-exports.default = _class;
+exports.default = _default;
