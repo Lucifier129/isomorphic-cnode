@@ -13,8 +13,6 @@ var Model = _interopRequireWildcard(require("./Model"));
 
 var _View = _interopRequireDefault(require("./View"));
 
-var _util2 = _interopRequireDefault(require("react-imvc/util"));
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -171,9 +169,11 @@ function (_Controller) {
         }, _callee2, this);
       }));
 
-      return function getInitialState(_x) {
+      function getInitialState(_x) {
         return _getInitialState.apply(this, arguments);
-      };
+      }
+
+      return getInitialState;
     }() // 组件创建前，获取首屏数据
 
   }, {
@@ -207,9 +207,11 @@ function (_Controller) {
         }, _callee3, this);
       }));
 
-      return function componentWillCreate() {
+      function componentWillCreate() {
         return _componentWillCreate.apply(this, arguments);
-      };
+      }
+
+      return componentWillCreate;
     }()
   }, {
     key: "componentDidMount",

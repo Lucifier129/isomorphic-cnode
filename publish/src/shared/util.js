@@ -18,116 +18,111 @@ exports.MillisecondToDate = MillisecondToDate;
  *  @param {bool} top 是否是置顶帖
  */
 function getTabClassName(tab, good, top) {
-  var className = "";
+  var className = '';
 
   if (top) {
-    className = "top";
+    className = 'top';
   } else if (good) {
-    className = "good";
+    className = 'good';
   } else {
     switch (tab) {
-      case "share":
-        className = "share";
+      case 'share':
+        className = 'share';
         break;
 
-      case "ask":
-        className = "ask";
+      case 'ask':
+        className = 'ask';
         break;
 
-      case "job":
-        className = "job";
+      case 'job':
+        className = 'job';
         break;
 
       default:
-        className = "default";
+        className = 'default';
     }
   }
 
   return className;
 }
-/** 获取title文字
- *  @param {string} tab Tab分类
+/**
+ * 获取title文字
  */
 
 
 function getTitleByTab(tab) {
-  var title = "";
+  var title = '';
 
   switch (tab) {
-    case "share":
-      title = "分享";
+    case 'share':
+      title = '分享';
       break;
 
-    case "ask":
-      title = "问答";
+    case 'ask':
+      title = '问答';
       break;
 
-    case "job":
-      title = "招聘";
+    case 'job':
+      title = '招聘';
       break;
 
-    case "good":
-      title = "精华";
+    case 'good':
+      title = '精华';
       break;
 
     default:
-      title = "全部";
+      title = '全部';
   }
 
   return title;
 }
-/** 获取文字标签
- *  @param {string} tab Tab分类
- *  @param {bool} good 是否是精华帖
- *  @param {bool} top 是否是置顶帖
+/**
+ * 获取文字标签
  */
 
 
 function getTabStr(tab, good, top) {
-  var str = "";
+  var str = '';
 
   if (top) {
-    str = "置顶";
+    str = '置顶';
   } else if (good) {
-    str = "精华";
+    str = '精华';
   } else {
     switch (tab) {
-      case "share":
-        str = "分享";
+      case 'share':
+        str = '分享';
         break;
 
-      case "ask":
-        str = "问答";
+      case 'ask':
+        str = '问答';
         break;
 
-      case "job":
-        str = "招聘";
+      case 'job':
+        str = '招聘';
         break;
 
       default:
-        str = "暂无";
+        str = '暂无';
     }
   }
 
   return str;
 }
-/**格式化时间
- *  @param {string} time 需要格式化的时间
- *  @param {bool} friendly 是否是fromNow
+/**
+ * 格式化时间
  */
 
 
 function getLastTimeStr(time, friendly) {
   if (friendly) {
-    return MillisecondToDate(new Date() - new Date(time));
+    return MillisecondToDate(new Date().getTime() - new Date(time).getTime());
   } else {
-    return fmtDate(new Date(time), "yyyy-MM-dd hh:mm");
+    return fmtDate(new Date(time), 'yyyy-MM-dd hh:mm');
   }
 }
 /**
  * 从文本中提取出@username 标记的用户名数组
- * @param {String} text 文本内容
- * @return {Array} 用户名数组
  */
 
 
@@ -144,7 +139,7 @@ function fetchUsers(text) {
   /\[@.+?\]\(\/.+?\)/g // 已经被 link 的 username
   ];
   ignoreRegexs.forEach(function (ignore_regex) {
-    text = text.replace(ignore_regex, "");
+    text = text.replace(ignore_regex, '');
   });
   var results = text.match(/@[a-z0-9\-_]+\b/gim);
   var names = [];
@@ -167,8 +162,6 @@ function fetchUsers(text) {
 }
 /**
  * 根据文本内容，替换为数据库中的数据
- * @param {String} text 文本内容
- * @param {Function} callback 回调函数
  */
 
 
@@ -177,43 +170,49 @@ function linkUsers(text) {
 
   for (var i = 0, l = users.length; i < l; i++) {
     var name = users[i];
-    text = text.replace(new RegExp("@" + name + "\\b(?!\\])", "g"), "[@" + name + "](/user/" + name + ")");
+    text = text.replace(new RegExp('@' + name + '\\b(?!\\])', 'g'), '[@' + name + '](/user/' + name + ')');
   }
 
   return text;
 }
 /**
- *   对Date的扩展，将 Date 转化为指定格式的String 
- *   月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符， 
+ *   对Date的扩展，将 Date 转化为指定格式的String
+ *   月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
  *   年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
  *   例子：
  *   (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
- *   (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18 
+ *   (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
  */
 
 
 function fmtDate(date, fmt) {
   //author: meizz
   var o = {
-    "M+": date.getMonth() + 1,
+    'M+': date.getMonth() + 1,
     //月份
-    "d+": date.getDate(),
+    'd+': date.getDate(),
     //日
-    "h+": date.getHours(),
+    'h+': date.getHours(),
     //小时
-    "m+": date.getMinutes(),
+    'm+': date.getMinutes(),
     //分
-    "s+": date.getSeconds(),
+    's+': date.getSeconds(),
     //秒
-    "q+": Math.floor((date.getMonth() + 3) / 3),
+    'q+': Math.floor((date.getMonth() + 3) / 3),
     //季度
     S: date.getMilliseconds() //毫秒
 
   };
-  if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+
+  if (/(y+)/.test(fmt)) {
+    fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
+  }
 
   for (var k in o) {
-    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
+    if (new RegExp('(' + k + ')').test(fmt)) {
+      var replaceValue = RegExp.$1.length == 1 ? o[k].toString() : ('00' + o[k]).substr(('' + o[k]).length);
+      fmt = fmt.replace(RegExp.$1, replaceValue);
+    }
   }
 
   return fmt;
@@ -224,22 +223,23 @@ function fmtDate(date, fmt) {
 
 
 function MillisecondToDate(msd) {
-  var time = parseFloat(msd) / 1000;
-  var str = "";
+  msd = typeof msd === 'string' ? parseFloat(msd) : msd;
+  var time = msd / 1000;
+  var str = '';
 
-  if (null != time && "" != time) {
+  if (null != time) {
     if (time > 60 && time < 3600) {
-      str = parseInt(time / 60.0) + " 分钟前";
+      str = Math.ceil(time / 60.0) + ' 分钟前';
     } else if (time >= 3600 && time < 86400) {
-      str = parseInt(time / 3600.0) + " 小时前";
+      str = Math.ceil(time / 3600.0) + ' 小时前';
     } else if (time >= 86400 && time < 86400 * 30) {
-      str = parseInt(time / 86400.0) + " 天前";
+      str = Math.ceil(time / 86400.0) + ' 天前';
     } else if (time >= 86400 * 30 && time < 86400 * 365) {
-      str = parseInt(time / (86400.0 * 30)) + " 个月前";
+      str = Math.ceil(time / (86400.0 * 30)) + ' 个月前';
     } else if (time >= 86400 * 365) {
-      str = parseInt(time / (86400.0 * 365)) + " 年前";
+      str = Math.ceil(time / (86400.0 * 365)) + ' 年前';
     } else {
-      str = parseInt(time) + " 秒前";
+      str = Math.ceil(time) + ' 秒前';
     }
   }
 

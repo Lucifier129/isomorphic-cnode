@@ -1,12 +1,19 @@
-import React, { Component } from "react";
+import React from "react";
 import classnames from "classnames";
 import { Link, Input } from "react-imvc/component";
+import { useCtrl, useModel, useActions } from 'react-imvc/hook'
 import { purify, staticify } from '../../shared/hoc'
 import * as _ from "../../shared/util";
 import Layout from "../../component/Layout";
 
 export default function View({ state, handlers }) {
   let { isLogin, topic, activeReplyId, replyOfOthers } = state;
+
+  let ctrl = useCtrl()
+  let model = useModel()
+  let actions = useActions()
+
+  console.log({ ctrl, model, actions })
 
   if (!topic) {
     return (

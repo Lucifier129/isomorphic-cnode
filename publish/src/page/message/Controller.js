@@ -145,9 +145,11 @@ function (_Controller) {
         }, _callee2, this);
       }));
 
-      return function componentWillCreate() {
+      function componentWillCreate() {
         return _componentWillCreate.apply(this, arguments);
-      };
+      }
+
+      return componentWillCreate;
     }()
   }]);
 

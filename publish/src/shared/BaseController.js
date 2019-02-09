@@ -149,9 +149,11 @@ function (_Controller) {
         }, _callee, this);
       }));
 
-      return function getInitialState(_x) {
+      function getInitialState(_x) {
         return _getInitialState.apply(this, arguments);
-      };
+      }
+
+      return getInitialState;
     }()
     /**
        * 动态合并共享的 actions
@@ -200,9 +202,11 @@ function (_Controller) {
         }, _callee2, this);
       }));
 
-      return function shouldComponentCreate() {
+      function shouldComponentCreate() {
         return _shouldComponentCreate.apply(this, arguments);
-      };
+      }
+
+      return shouldComponentCreate;
     }()
   }, {
     key: "pageWillLeave",
@@ -268,9 +272,11 @@ function (_Controller) {
         }, _callee3, this, [[2, 14]]);
       }));
 
-      return function getUserInfo() {
+      function getUserInfo() {
         return _getUserInfo.apply(this, arguments);
-      };
+      }
+
+      return getUserInfo;
     }()
   }, {
     key: "fetchUserInfo",
@@ -309,9 +315,11 @@ function (_Controller) {
         }, _callee4, this);
       }));
 
-      return function fetchUserInfo(_x2) {
+      function fetchUserInfo(_x2) {
         return _fetchUserInfo.apply(this, arguments);
-      };
+      }
+
+      return fetchUserInfo;
     }() // 判断是否登录
 
   }, {
@@ -384,9 +392,11 @@ function (_Controller) {
         }, _callee5, this);
       }));
 
-      return function fetch(_x3, _x4) {
+      function fetch(_x3, _x4) {
         return _fetch.apply(this, arguments);
-      };
+      }
+
+      return fetch;
     }() // 隐藏提示信息
 
   }]);

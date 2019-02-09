@@ -5,6 +5,7 @@
   "main": "imvc.config.js",
   "scripts": {
     "start": "react-imvc start --config ./imvc.config.js",
+    "debug": "react-imvc start?inspect-brk --config ./imvc.config.js",
     "build": "react-imvc build --config ./imvc.config.js"
   },
   "repository": {
@@ -20,8 +21,8 @@
   "homepage": "https://github.com/Lucifier129/isomorphic-cnode#readme",
   "dependencies": {
     "markdown": "^0.5.0",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
-    "react-imvc": "^2.0.0"
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
+    "react-imvc": "^2.4.0"
   }
 }
